@@ -43,6 +43,7 @@ jobs:
           test -f dist/sw.js && echo "✓ sw.js 존재" || (echo "✗ sw.js 없음" && exit 1)
           test -f dist/.nojekyll && echo "✓ .nojekyll 존재" || (echo "✗ .nojekyll 없음" && exit 1)
           test -f dist/index.html && echo "✓ index.html 존재" || (echo "✗ index.html 없음" && exit 1)
+          test -f dist/og-image.png && echo "✓ og-image.png 존재" || (echo "✗ og-image.png 없음" && exit 1)
           echo ""
           echo "=== assets 폴더 확인 ==="
           if [ -d dist/assets ]; then

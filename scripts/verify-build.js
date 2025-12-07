@@ -14,7 +14,8 @@ const requiredFiles = [
   'privacy.html',
   'terms.html',
   'robots.txt',
-  'sitemap.xml'
+  'sitemap.xml',
+  'og-image.png' // OG 이미지 추가
 ];
 
 let allExists = true;
