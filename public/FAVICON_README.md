@@ -13,7 +13,11 @@
 6. **icon-512.png** - 512x512 픽셀 (PWA용, manifest.json에 사용)
 
 ### 공유 이미지 (OG Image)
-1. **og-image.png** - 1200x630 픽셀 (Facebook, Twitter 공유용)
+1. **og-image.png** - 1200x630 픽셀 (Facebook, Twitter, 카카오톡 공유용)
+
+**생성 방법:**
+- 브라우저에서 `public/generate-og-image.html` 파일을 열고 "다운로드" 버튼을 클릭하세요.
+- 또는 `public/og-image.svg` 파일을 사용할 수 있습니다 (SVG를 PNG로 변환 필요).
 
 ## 생성 방법
 
