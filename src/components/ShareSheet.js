@@ -8,6 +8,7 @@ import {
   shareFacebook,
   saveShareRecord
 } from '../utils/shareEngine.js';
+import { uploadImageToImgBB } from '../utils/imageUpload.js';
 
 let currentShareData = null;
 
@@ -97,14 +98,18 @@ function setupShareEvents(shareData) {
   const kakaoBtn = document.getElementById('share-kakao-btn');
   kakaoBtn.onclick = async () => {
     try {
-      const img = await generateShareImage(shareData.previewElementId || 'timeline-view');
-      if (img) {
-        shareData.previewImageUrl = img;
-        shareToKakao(shareData);
-        saveShareRecord(true);
-      } else {
-        alert('이미지를 생성할 수 없습니다.');
-      }
+      // 카카오톡 공유는 Base64 이미지를 사용할 수 없으므로 HTTPS URL 필요
+      // 옵션 1: 기본 OG 이미지 사용 (간단)
+      shareData.previewImageUrl = 'https://snaptrail.ashlight.store/og-image.png';
+      
+      // 옵션 2: 이미지를 생성하고 서버에 업로드 (고급)
+      // const img = await generateShareImage(shareData.previewElementId || 'timeline-view');
+      // if (img) {
+      //   shareData.previewImageUrl = await uploadImageToImgBB(img);
+      // }
+      
+      shareToKakao(shareData);
+      saveShareRecord(true);
     } catch (error) {
       console.error('카카오톡 공유 오류:', error);
       alert('카카오톡 공유에 실패했습니다.');

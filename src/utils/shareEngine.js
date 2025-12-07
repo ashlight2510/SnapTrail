@@ -85,6 +85,15 @@ export function generateShareMessage(data) {
 }
 
 /**
+ * Base64 Data URL인지 확인
+ * @param {string} url - 확인할 URL
+ * @returns {boolean}
+ */
+function isDataUrl(url) {
+  return url && (url.startsWith('data:') || url.startsWith('blob:'));
+}
+
+/**
  * 카카오톡 공유
  * @param {Object} data - 공유 데이터
  */
@@ -100,15 +109,27 @@ export function shareToKakao(data) {
   }
 
   try {
-    // 이미지 URL이 Data URL인 경우, 서버에 업로드하거나 임시로 사용
-    // 실제 운영 환경에서는 이미지를 서버에 업로드하고 URL을 사용하는 것을 권장
-    const imageUrl = data.previewImageUrl || 'https://snaptrail.ashlight.store/og-image.png';
+    // Base64 Data URL은 카카오에서 지원하지 않으므로 기본 이미지 사용
+    // 실제 운영 환경에서는 이미지를 서버에 업로드하고 HTTPS URL을 사용해야 함
+    let imageUrl = 'https://snaptrail.ashlight.store/og-image.png';
+    
+    if (data.previewImageUrl && !isDataUrl(data.previewImageUrl)) {
+      // HTTPS URL인 경우에만 사용
+      if (data.previewImageUrl.startsWith('http')) {
+        imageUrl = data.previewImageUrl;
+      }
+    }
+    
+    // payload 크기 제한을 위해 설명 길이 제한
+    const description = data.description.length > 200 
+      ? data.description.substring(0, 197) + '...' 
+      : data.description;
     
     Kakao.Link.sendDefault({
       objectType: 'feed',
       content: {
         title: data.title,
-        description: data.description,
+        description: description,
         imageUrl: imageUrl,
         link: {
           mobileWebUrl: data.shareUrl,
@@ -127,7 +148,16 @@ export function shareToKakao(data) {
     });
   } catch (error) {
     console.error('카카오톡 공유 실패:', error);
-    alert('카카오톡 공유에 실패했습니다: ' + error.message);
+    if (error.status === 413) {
+      alert('공유 데이터가 너무 큽니다. 기본 이미지로 공유합니다.');
+      // 기본 이미지로 재시도
+      shareToKakao({
+        ...data,
+        previewImageUrl: 'https://snaptrail.ashlight.store/og-image.png'
+      });
+    } else {
+      alert('카카오톡 공유에 실패했습니다: ' + error.message);
+    }
   }
 }
 

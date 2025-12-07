@@ -84,6 +84,138 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
   
+  <!-- 초기 로딩 스타일 (FOUC 방지) -->
+  <style>
+    /* 초기 스타일 - CSS 로드 전에도 적용 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #ffffff;
+      color: #333333;
+      line-height: 1.6;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.2s ease-in;
+    }
+    
+    body.loaded {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #1a1a1a;
+        color: #e0e0e0;
+      }
+    }
+    
+    #app {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      header {
+        border-bottom-color: #333333;
+      }
+    }
+    
+    header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .upload-btn,
+    .clear-btn,
+    .share-btn {
+      padding: 10px 20px;
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      display: inline-block;
+    }
+    
+    .clear-btn {
+      background-color: #dc3545;
+    }
+    
+    .share-btn {
+      background-color: #9c27b0;
+    }
+    
+    .drop-zone {
+      border: 3px dashed #e0e0e0;
+      border-radius: 12px;
+      padding: 60px 20px;
+      text-align: center;
+      margin-bottom: 30px;
+      background-color: #ffffff;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .drop-zone {
+        border-color: #333333;
+        background-color: #2a2a2a;
+      }
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .tabs {
+        border-bottom-color: #333333;
+      }
+    }
+    
+    .tab-btn {
+      padding: 12px 24px;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+  
   <!-- 카카오 SDK -->
   <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 </head>
@@ -262,27 +394,60 @@
       
       <div class="share-options">
         <button class="share-option-btn" id="share-kakao-btn">
-          <span class="share-icon">🟡</span>
+          <span class="share-icon share-icon-kakao">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="24" height="24" rx="12" fill="#FEE500"/>
+              <path d="M12 4C7.58 4 4 7.13 4 11c0 2.38 1.19 4.47 3 5.74V20l3.31-1.82c.88.24 1.81.37 2.69.37 4.42 0 8-3.13 8-7s-3.58-7-8-7z" fill="#3C1E1E"/>
+            </svg>
+          </span>
           <span>카카오톡으로 공유</span>
         </button>
         <button class="share-option-btn" id="share-insta-btn">
-          <span class="share-icon">🟣</span>
+          <span class="share-icon share-icon-insta">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="url(#instagram-gradient)"/>
+              <path d="M12 7.5c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5zm0 7.5c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6.5-8.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" fill="white"/>
+              <defs>
+                <linearGradient id="instagram-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#833AB4;stop-opacity:1" />
+                  <stop offset="50%" style="stop-color:#FD1D1D;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#FCAF45;stop-opacity:1" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </span>
           <span>인스타그램용 이미지 저장</span>
         </button>
         <button class="share-option-btn" id="share-copy-btn">
-          <span class="share-icon">🔗</span>
+          <span class="share-icon share-icon-copy">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="#4285f4"/>
+            </svg>
+          </span>
           <span>링크 복사하기</span>
         </button>
         <button class="share-option-btn" id="share-image-btn">
-          <span class="share-icon">🖼</span>
+          <span class="share-icon share-icon-image">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" fill="#34a853"/>
+            </svg>
+          </span>
           <span>대표 이미지 저장하기</span>
         </button>
         <button class="share-option-btn" id="share-twitter-btn">
-          <span class="share-icon">🐦</span>
+          <span class="share-icon share-icon-twitter">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" fill="#1DA1F2"/>
+            </svg>
+          </span>
           <span>트위터 공유</span>
         </button>
         <button class="share-option-btn" id="share-fb-btn">
-          <span class="share-icon">📘</span>
+          <span class="share-icon share-icon-facebook">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#1877F2"/>
+            </svg>
+          </span>
           <span>페이스북 공유</span>
         </button>
       </div>
@@ -304,6 +469,26 @@
     // 카카오 SDK 초기화
     if (typeof Kakao !== 'undefined') {
       Kakao.init('82751ba8dee918dd9548c805d3eaef67');
+    }
+    
+    // CSS 로드 후 body 표시 (FOUC 방지)
+    window.addEventListener('load', () => {
+      // 모든 리소스 로드 완료 후 표시
+      document.body.classList.add('loaded');
+    });
+    
+    // DOMContentLoaded 시에도 표시 (CSS가 빠르게 로드된 경우)
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          document.body.classList.add('loaded');
+        }, 100);
+      });
+    } else {
+      // 이미 로드된 경우 즉시 표시
+      setTimeout(() => {
+        document.body.classList.add('loaded');
+      }, 100);
     }
     
     // Service Worker는 선택적으로 로드 (GitHub Pages에서 제한적일 수 있음)
