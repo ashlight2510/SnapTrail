@@ -11,6 +11,8 @@ export default defineConfig({
         manualChunks: undefined,
       },
     },
+    // 빌드 시 모든 파일을 포함
+    copyPublicDir: true,
   },
   server: {
     port: 3000,

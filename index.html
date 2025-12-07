@@ -494,27 +494,40 @@
     
     // Service Worker는 선택적으로 로드 (GitHub Pages에서 제한적일 수 있음)
     if ('serviceWorker' in navigator && location.protocol === 'https:') {
-      navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).then((registration) => {
-        console.log('Service Worker 등록 완료');
-        
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              if (confirm('새 버전이 있습니다. 페이지를 새로고침하시겠습니까?')) {
-                window.location.reload();
-              }
-            }
-          });
+      // Service Worker 파일 존재 여부 확인 후 등록
+      fetch('/sw.js', { method: 'HEAD' })
+        .then(response => {
+          if (response.ok) {
+            return navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' });
+          } else {
+            console.warn('Service Worker 파일을 찾을 수 없습니다.');
+            return null;
+          }
+        })
+        .then((registration) => {
+          if (registration) {
+            console.log('Service Worker 등록 완료');
+            
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  if (confirm('새 버전이 있습니다. 페이지를 새로고침하시겠습니까?')) {
+                    window.location.reload();
+                  }
+                }
+              });
+            });
+            
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+              window.location.reload();
+            });
+          }
+        })
+        .catch(err => {
+          // Service Worker 등록 실패는 무시 (GitHub Pages에서 정상)
+          console.warn('Service Worker 등록 실패 (정상일 수 있음):', err.message);
         });
-      }).catch(err => {
-        // Service Worker 등록 실패는 무시 (GitHub Pages에서 정상)
-        console.warn('Service Worker 등록 실패 (정상일 수 있음):', err.message);
-      });
-      
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        window.location.reload();
-      });
     }
   </script>
 </body>

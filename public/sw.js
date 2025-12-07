@@ -1,8 +1,7 @@
-const CACHE_NAME = "snaptrail-cache-v2";
+const CACHE_NAME = "snaptrail-cache-v3";
 const ASSETS = [
   "/",
   "/index.html",
-  "/src/main.js",
   "/manifest.json",
   "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
   "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css",
