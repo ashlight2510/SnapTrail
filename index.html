@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="SnapTrail - 올인원 사진 타임라인 뷰어">
+  <title>SnapTrail</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>📸 SnapTrail</h1>
+      <div class="header-actions">
+        <label for="file-input" class="upload-btn">사진 업로드</label>
+        <input type="file" id="file-input" multiple accept="image/*,.heic,.heif" style="display: none;">
+        <button id="clear-btn" class="clear-btn">초기화</button>
+      </div>
+    </header>
+
+    <div class="drop-zone" id="drop-zone">
+      <p>📁 사진을 여기에 드래그하거나 클릭하여 업로드하세요</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="timeline">타임라인</button>
+      <button class="tab-btn" data-tab="map">지도</button>
+    </div>
+
+    <div id="loading" class="loading" style="display: none;">
+      <div class="spinner"></div>
+      <p>사진을 분석 중...</p>
+    </div>
+
+    <main>
+      <div id="timeline-view" class="tab-content active"></div>
+      <div id="map-view" class="tab-content"></div>
+    </main>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').then(() => {
+        console.log('Service Worker 등록 완료');
+      }).catch(err => {
+        console.error('Service Worker 등록 실패:', err);
+      });
+    }
+  </script>
+</body>
+</html>
+

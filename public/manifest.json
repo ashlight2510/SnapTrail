@@ -1,0 +1,25 @@
+{
+  "name": "SnapTrail",
+  "short_name": "SnapTrail",
+  "description": "올인원 사진 타임라인 뷰어 - EXIF 분석, GPS 지도, ZIP 다운로드, HEIC 지원",
+  "display": "standalone",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
+
