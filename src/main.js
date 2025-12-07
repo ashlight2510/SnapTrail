@@ -61,11 +61,37 @@ function setupEventListeners() {
   });
   
   // 초기화 버튼
-  clearBtn.addEventListener('click', () => {
-    if (confirm('모든 사진을 삭제하시겠습니까?')) {
+  clearBtn.addEventListener('click', async () => {
+    if (confirm('모든 사진과 캐시를 삭제하시겠습니까?')) {
       allPhotos = [];
       clearCache();
+      
+      // Service Worker 캐시도 삭제
+      if ('caches' in window) {
+        try {
+          const cacheNames = await caches.keys();
+          await Promise.all(cacheNames.map(name => caches.delete(name)));
+          console.log('Service Worker 캐시 삭제 완료');
+        } catch (error) {
+          console.error('Service Worker 캐시 삭제 실패:', error);
+        }
+      }
+      
+      // Service Worker 재등록
+      if ('serviceWorker' in navigator) {
+        try {
+          const registration = await navigator.serviceWorker.getRegistration();
+          if (registration) {
+            await registration.unregister();
+            console.log('Service Worker 등록 해제 완료');
+          }
+        } catch (error) {
+          console.error('Service Worker 등록 해제 실패:', error);
+        }
+      }
+      
       updateUI();
+      alert('모든 데이터가 삭제되었습니다. 페이지를 새로고침해주세요.');
     }
   });
 }
@@ -127,10 +153,10 @@ async function handleFiles(files) {
           gps: exif.gps
         });
         
-        // 날짜 파싱
+        // 날짜 파싱 (통일된 형식으로 변환)
         let dateParsed = new Date(original.lastModified);
         if (exif.date) {
-          // EXIF 날짜 형식: "2023:12:25 14:30:00"
+          // EXIF 날짜 형식: "2025:12:07 20:03:02" 또는 "2025-12-07T20:03:02"
           const dateStr = exif.date.replace(/(\d{4}):(\d{2}):(\d{2})\s+(\d{2}):(\d{2}):(\d{2})/, '$1-$2-$3T$4:$5:$6');
           const parsed = new Date(dateStr);
           if (!isNaN(parsed.getTime())) {
@@ -191,7 +217,7 @@ async function updateUI() {
   
   // 지도 마커 업데이트
   if (window.mapInitialized) {
-    updateMapMarkers(allPhotos);
+    await updateMapMarkers(allPhotos);
   }
   
   // 드롭존 숨기기/보이기

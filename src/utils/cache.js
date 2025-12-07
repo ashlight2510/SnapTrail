@@ -1,5 +1,5 @@
 const CACHE_KEY = 'snaptrailCache';
-const CACHE_VERSION = 1;
+const CACHE_VERSION = 2; // 버전 업데이트로 기존 캐시 무효화
 
 // 썸네일 생성 (canvas 사용)
 export function createThumbnail(file, maxSize = 300) {

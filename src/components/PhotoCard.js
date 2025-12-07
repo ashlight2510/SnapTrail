@@ -1,4 +1,6 @@
 import { getCachedAddress } from '../utils/geocoding.js';
+import { formatDate } from '../utils/dateFormat.js';
+import { createMiniMap } from '../utils/miniMap.js';
 
 export async function createPhotoCard(photo) {
   const card = document.createElement('div');
@@ -14,18 +16,8 @@ export async function createPhotoCard(photo) {
   
   const date = document.createElement('p');
   date.className = 'photo-date';
-  let dateText = '';
-  if (photo.date) {
-    dateText = photo.date;
-  } else if (photo.dateParsed) {
-    dateText = photo.dateParsed.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  }
+  // 날짜 형식 통일
+  const dateText = formatDate(photo.date || photo.dateParsed);
   date.textContent = dateText;
   
   const model = document.createElement('p');
@@ -53,11 +45,22 @@ export async function createPhotoCard(photo) {
     const modal = document.createElement('div');
     modal.className = 'photo-modal';
     
-    const locationText = address 
-      ? `<p><strong>위치정보:</strong> ${address}</p>`
-      : photo.gps 
-        ? `<p><strong>위치정보:</strong> ${photo.gps.lat.toFixed(6)}, ${photo.gps.lon.toFixed(6)}</p>`
-        : '';
+    // 위치 정보 및 지도 링크
+    let locationText = '';
+    if (address) {
+      locationText = `
+        <p><strong>위치정보:</strong> ${address}</p>
+        ${photo.gps ? `<p><a href="https://www.google.com/maps?q=${photo.gps.lat},${photo.gps.lon}" target="_blank" class="map-link">📍 지도에서 보기</a></p>` : ''}
+      `;
+    } else if (photo.gps) {
+      locationText = `
+        <p><strong>위치정보:</strong> ${photo.gps.lat.toFixed(6)}, ${photo.gps.lon.toFixed(6)}</p>
+        <p><a href="https://www.google.com/maps?q=${photo.gps.lat},${photo.gps.lon}" target="_blank" class="map-link">📍 지도에서 보기</a></p>
+      `;
+    }
+    
+    // 지도 컨테이너 ID 생성 (고유한 ID)
+    const mapId = `mini-map-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     
     modal.innerHTML = `
       <div class="modal-content">
@@ -68,14 +71,42 @@ export async function createPhotoCard(photo) {
           <p><strong>촬영일:</strong> ${dateText}</p>
           <p><strong>카메라:</strong> ${model.textContent}</p>
           ${locationText}
+          ${photo.gps ? `<div id="${mapId}" class="mini-map"></div>` : ''}
         </div>
       </div>
     `;
     
     document.body.appendChild(modal);
     
+    // GPS 정보가 있으면 작은 지도 생성
+    let miniMap = null;
+    if (photo.gps && photo.gps.lat && photo.gps.lon) {
+      // DOM이 완전히 렌더링된 후 지도 생성
+      setTimeout(() => {
+        try {
+          miniMap = createMiniMap(mapId, photo.gps.lat, photo.gps.lon);
+          if (miniMap) {
+            // 지도 크기 조정
+            setTimeout(() => {
+              miniMap.invalidateSize();
+            }, 100);
+          }
+        } catch (error) {
+          console.error('작은 지도 생성 실패:', error);
+        }
+      }, 50);
+    }
+    
     const closeBtn = modal.querySelector('.modal-close');
     const closeModal = () => {
+      // 지도 제거
+      if (miniMap) {
+        try {
+          miniMap.remove();
+        } catch (error) {
+          console.warn('지도 제거 실패:', error);
+        }
+      }
       document.body.removeChild(modal);
     };
     

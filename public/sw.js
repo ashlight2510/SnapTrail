@@ -1,4 +1,4 @@
-const CACHE_NAME = "snaptrail-cache-v1";
+const CACHE_NAME = "snaptrail-cache-v2";
 const ASSETS = [
   "/",
   "/index.html",
@@ -52,24 +52,46 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
-  // 로컬 리소스는 캐시 우선
-  e.respondWith(
-    caches.match(e.request).then((res) => {
-      if (res) {
-        return res;
-      }
-      return fetch(e.request).then((response) => {
+  // 개발 모드에서는 네트워크 우선 (캐시 무시)
+  const isDev = self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1';
+  
+  if (isDev) {
+    // 개발 모드: 네트워크 우선, 캐시는 백업용
+    e.respondWith(
+      fetch(e.request).then((response) => {
         // 유효한 응답만 캐시
-        if (!response || response.status !== 200 || response.type !== "basic") {
-          return response;
+        if (response && response.status === 200 && response.type === "basic") {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(e.request, responseToCache);
+          });
         }
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(e.request, responseToCache);
-        });
         return response;
-      });
-    })
-  );
+      }).catch(() => {
+        // 네트워크 실패 시 캐시 확인
+        return caches.match(e.request);
+      })
+    );
+  } else {
+    // 프로덕션 모드: 캐시 우선
+    e.respondWith(
+      caches.match(e.request).then((res) => {
+        if (res) {
+          return res;
+        }
+        return fetch(e.request).then((response) => {
+          // 유효한 응답만 캐시
+          if (!response || response.status !== 200 || response.type !== "basic") {
+            return response;
+          }
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(e.request, responseToCache);
+          });
+          return response;
+        });
+      })
+    );
+  }
 });
 
