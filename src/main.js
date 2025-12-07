@@ -4,6 +4,7 @@ import { createThumbnail, saveToCache, loadFromCache, clearCache } from './utils
 import { convertHeicFiles } from './utils/heic.js';
 import { renderTimeline } from './components/Timeline.js';
 import { initMap, updateMapMarkers } from './components/MapView.js';
+import { openShareSheet } from './components/ShareSheet.js';
 import './style.css';
 
 let allPhotos = [];
@@ -27,6 +28,7 @@ function setupEventListeners() {
   const fileInput = document.getElementById('file-input');
   const dropZone = document.getElementById('drop-zone');
   const clearBtn = document.getElementById('clear-btn');
+  const shareBtn = document.getElementById('share-btn');
   
   // 파일 입력
   fileInput.addEventListener('change', (e) => {
@@ -58,6 +60,30 @@ function setupEventListeners() {
     if (files.length > 0) {
       handleFiles(files);
     }
+  });
+  
+  // 공유 버튼
+  shareBtn.addEventListener('click', () => {
+    const photoCount = allPhotos.length;
+    const gpsCount = allPhotos.filter(p => p.gps).length;
+    
+    // 현재 활성화된 탭 확인
+    const activeTab = document.querySelector('.tab-content.active');
+    const previewElementId = activeTab?.id || 'timeline-view';
+    
+    // 공유 데이터 생성
+    const shareData = {
+      title: photoCount > 0 
+        ? `${photoCount}장의 사진 타임라인` 
+        : 'SnapTrail - 사진 타임라인 뷰어',
+      description: photoCount > 0
+        ? `촬영한 ${photoCount}장의 사진을 타임라인으로 확인하세요.${gpsCount > 0 ? ` 위치 정보가 있는 사진 ${gpsCount}장이 지도에 표시됩니다.` : ''}`
+        : '사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱',
+      shareUrl: window.location.href,
+      previewElementId: previewElementId
+    };
+    
+    openShareSheet(shareData);
   });
   
   // 초기화 버튼

@@ -19,16 +19,33 @@
   <meta property="og:title" content="SnapTrail - 무료 사진 타임라인 뷰어">
   <meta property="og:description" content="사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱. GPS 지도, HEIC 지원, ZIP 다운로드 기능 제공.">
   <meta property="og:image" content="https://snaptrail.ashlight.store/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="SnapTrail - 사진 타임라인 뷰어">
+  <meta property="og:site_name" content="SnapTrail">
+  <meta property="og:locale" content="ko_KR">
   
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://snaptrail.ashlight.store/">
-  <meta property="twitter:title" content="SnapTrail - 무료 사진 타임라인 뷰어">
-  <meta property="twitter:description" content="사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱.">
-  <meta property="twitter:image" content="https://snaptrail.ashlight.store/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://snaptrail.ashlight.store/">
+  <meta name="twitter:title" content="SnapTrail - 무료 사진 타임라인 뷰어">
+  <meta name="twitter:description" content="사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱.">
+  <meta name="twitter:image" content="https://snaptrail.ashlight.store/og-image.png">
+  <meta name="twitter:image:alt" content="SnapTrail - 사진 타임라인 뷰어">
+  <meta name="twitter:creator" content="@ashlight">
   
   <!-- Canonical URL -->
   <link rel="canonical" href="https://snaptrail.ashlight.store/">
+  
+  <!-- 파비콘 -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+  <link rel="shortcut icon" href="/favicon.ico">
   
   <link rel="manifest" href="/manifest.json">
   
@@ -40,6 +57,7 @@
     "name": "SnapTrail",
     "description": "사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱",
     "url": "https://snaptrail.ashlight.store/",
+    "image": "https://snaptrail.ashlight.store/og-image.png",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "Web",
     "offers": {
@@ -65,6 +83,9 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  
+  <!-- 카카오 SDK -->
+  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 </head>
 <body>
   <div id="app">
@@ -73,6 +94,7 @@
       <div class="header-actions">
         <label for="file-input" class="upload-btn">사진 업로드</label>
         <input type="file" id="file-input" multiple accept="image/*,.heic,.heif" style="display: none;">
+        <button id="share-btn" class="share-btn">공유하기</button>
         <button id="clear-btn" class="clear-btn">초기화</button>
       </div>
     </header>
@@ -192,7 +214,11 @@
         </div>
       </div>
     </section>
-    
+    <section><ins class="kakao_ad_area" style="display:none;"
+      data-ad-unit = "DAN-uC61Wn2ZTKm6f8dZ"
+      data-ad-width = "250"
+      data-ad-height = "250"></ins>
+      <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script></section>
     <!-- 푸터 -->
     <footer class="footer">
       <div class="footer-content">
@@ -222,8 +248,64 @@
     </footer>
   </div>
 
+  <!-- 공유 Bottom Sheet -->
+  <div id="share-sheet" class="share-sheet">
+    <div class="share-sheet-content">
+      <div class="share-sheet-header">
+        <h2>공유하기</h2>
+        <button class="share-close-btn" id="share-close-btn">&times;</button>
+      </div>
+      
+      <div class="share-preview" id="share-preview-container">
+        <div id="share-preview" class="share-preview-content"></div>
+      </div>
+      
+      <div class="share-options">
+        <button class="share-option-btn" id="share-kakao-btn">
+          <span class="share-icon">🟡</span>
+          <span>카카오톡으로 공유</span>
+        </button>
+        <button class="share-option-btn" id="share-insta-btn">
+          <span class="share-icon">🟣</span>
+          <span>인스타그램용 이미지 저장</span>
+        </button>
+        <button class="share-option-btn" id="share-copy-btn">
+          <span class="share-icon">🔗</span>
+          <span>링크 복사하기</span>
+        </button>
+        <button class="share-option-btn" id="share-image-btn">
+          <span class="share-icon">🖼</span>
+          <span>대표 이미지 저장하기</span>
+        </button>
+        <button class="share-option-btn" id="share-twitter-btn">
+          <span class="share-icon">🐦</span>
+          <span>트위터 공유</span>
+        </button>
+        <button class="share-option-btn" id="share-fb-btn">
+          <span class="share-icon">📘</span>
+          <span>페이스북 공유</span>
+        </button>
+      </div>
+      
+      <div class="share-message">
+        <h3>공유 문구</h3>
+        <div class="share-message-text" id="share-message-text"></div>
+        <button class="share-copy-message-btn" id="share-copy-message-btn">문구 복사</button>
+        <p class="share-instagram-hint" id="share-instagram-hint" style="display: none;">
+          💡 인스타그램에 업로드하려면 위의 "인스타그램용 이미지 저장" 버튼을 눌러 이미지를 저장한 후, 인스타그램 앱에서 업로드하세요.
+        </p>
+      </div>
+    </div>
+    <div class="share-sheet-backdrop" id="share-sheet-backdrop"></div>
+  </div>
+
   <script type="module" src="/src/main.js"></script>
   <script>
+    // 카카오 SDK 초기화
+    if (typeof Kakao !== 'undefined') {
+      Kakao.init('82751ba8dee918dd9548c805d3eaef67');
+    }
+    
     // Service Worker는 선택적으로 로드 (GitHub Pages에서 제한적일 수 있음)
     if ('serviceWorker' in navigator && location.protocol === 'https:') {
       navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).then((registration) => {

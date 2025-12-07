@@ -61,7 +61,8 @@ header h1 {
 }
 
 .upload-btn,
-.clear-btn {
+.clear-btn,
+.share-btn {
   padding: 10px 20px;
   background-color: var(--primary-color);
   color: white;
@@ -71,10 +72,12 @@ header h1 {
   font-size: 1rem;
   font-weight: 500;
   transition: background-color 0.2s;
+  display: inline-block;
 }
 
 .upload-btn:hover,
-.clear-btn:hover {
+.clear-btn:hover,
+.share-btn:hover {
   background-color: var(--hover-color);
 }
 
@@ -84,6 +87,14 @@ header h1 {
 
 .clear-btn:hover {
   background-color: #c82333;
+}
+
+.share-btn {
+  background-color: #9c27b0;
+}
+
+.share-btn:hover {
+  background-color: #7b1fa2;
 }
 
 .drop-zone {
@@ -646,6 +657,215 @@ header h1 {
   .footer-content {
     grid-template-columns: 1fr;
     gap: 30px;
+  }
+}
+
+
+/* 공유 Bottom Sheet */
+.share-sheet {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.share-sheet.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.share-sheet-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.share-sheet-content {
+  position: relative;
+  background-color: var(--card-bg);
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 600px;
+  max-height: 80vh;
+  padding: 0;
+  z-index: 2001;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-out;
+  overflow-y: auto;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.share-sheet.active .share-sheet-content {
+  transform: translateY(0);
+}
+
+.share-sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  background-color: var(--card-bg);
+  z-index: 10;
+}
+
+.share-sheet-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+.share-close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.share-close-btn:hover {
+  background-color: var(--border-color);
+}
+
+.share-preview {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.share-preview-content {
+  display: inline-block;
+  max-width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.share-options {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.share-option-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px;
+  background-color: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.share-option-btn:hover {
+  border-color: var(--primary-color);
+  background-color: rgba(66, 133, 244, 0.1);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.share-icon {
+  font-size: 2rem;
+}
+
+.share-message {
+  padding: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.share-message h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.1rem;
+  color: var(--text-color);
+}
+
+.share-message-text {
+  background-color: var(--bg-color);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.share-copy-message-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.share-copy-message-btn:hover {
+  background-color: var(--hover-color);
+}
+
+.share-instagram-hint {
+  margin-top: 15px;
+  padding: 12px;
+  background-color: rgba(156, 39, 176, 0.1);
+  border-left: 4px solid #9c27b0;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .share-sheet-content {
+    max-height: 85vh;
+  }
+
+  .share-options {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .share-option-btn {
+    padding: 15px;
+    font-size: 0.8rem;
+  }
+
+  .share-icon {
+    font-size: 1.5rem;
   }
 }
 
