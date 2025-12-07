@@ -77,7 +77,7 @@ export async function uploadImageToImgBB(base64Image) {
   
   if (!API_KEY || API_KEY === 'YOUR_IMGBB_API_KEY') {
     console.warn('ImgBB API 키가 설정되지 않았습니다.');
-    return 'https://snaptrail.ashlight.store/og-image.png';
+    return 'https://snaptrail.ashlight.store/og-image.png?v=2';
   }
   
   try {
@@ -100,7 +100,7 @@ export async function uploadImageToImgBB(base64Image) {
     }
   } catch (error) {
     console.error('이미지 업로드 실패:', error);
-    return 'https://snaptrail.ashlight.store/og-image.png';
+    return 'https://snaptrail.ashlight.store/og-image.png?v=2';
   }
 }
 

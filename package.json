@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "vite build && node scripts/verify-build.js",
     "preview": "vite preview",
-    "deploy": "yarn build && gh-pages -d dist"
+    "deploy": "yarn build && gh-pages -d dist",
+    "generate:og-image": "node scripts/generate-og-image.js"
   },
   "dependencies": {
     "exifreader": "^3.16.0",

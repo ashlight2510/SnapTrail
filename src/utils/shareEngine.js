@@ -111,7 +111,7 @@ export function shareToKakao(data) {
   try {
     // Base64 Data URL은 카카오에서 지원하지 않으므로 기본 이미지 사용
     // 실제 운영 환경에서는 이미지를 서버에 업로드하고 HTTPS URL을 사용해야 함
-    let imageUrl = 'https://snaptrail.ashlight.store/og-image.png';
+    let imageUrl = 'https://snaptrail.ashlight.store/og-image.png?v=2';
     
     if (data.previewImageUrl && !isDataUrl(data.previewImageUrl)) {
       // HTTPS URL인 경우에만 사용

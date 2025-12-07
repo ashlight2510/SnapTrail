@@ -170,7 +170,18 @@
       const a = document.getElementById('downloadBtn');
       a.href = url;
       console.log('OG 이미지 생성 완료!');
+      
+      // 자동 다운로드 (선택사항)
+      // a.click();
     });
+    
+    // 이미지 미리보기 표시
+    const preview = document.createElement('img');
+    preview.src = canvas.toDataURL('image/png');
+    preview.style.maxWidth = '100%';
+    preview.style.border = '1px solid #ddd';
+    preview.style.marginTop = '20px';
+    document.body.appendChild(preview);
   </script>
 </body>
 </html>

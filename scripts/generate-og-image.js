@@ -1,0 +1,143 @@
+// Node.js 환경에서 OG 이미지를 생성하는 스크립트
+// 사용법: node scripts/generate-og-image.js
+
+import { createCanvas } from 'canvas';
+import { writeFileSync } from 'fs';
+import { join } from 'path';
+
+const width = 1200;
+const height = 630;
+
+const canvas = createCanvas(width, height);
+const ctx = canvas.getContext('2d');
+
+// 그라데이션 배경
+const gradient = ctx.createLinearGradient(0, 0, width, height);
+gradient.addColorStop(0, '#4285f4');
+gradient.addColorStop(1, '#357ae8');
+ctx.fillStyle = gradient;
+ctx.fillRect(0, 0, width, height);
+
+const leftMargin = 150;
+const rightMargin = 150;
+const topMargin = 100;
+
+// 카메라 아이콘 (왼쪽 중앙)
+ctx.save();
+ctx.translate(leftMargin, topMargin + 80);
+
+// 카메라 본체
+ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+roundRect(ctx, 0, 0, 200, 150, 20);
+ctx.fill();
+
+// 상단 그립 부분
+ctx.fillStyle = 'rgba(240, 240, 240, 0.9)';
+roundRect(ctx, 10, 10, 180, 30, 8);
+ctx.fill();
+
+// 렌즈 외곽 링
+ctx.strokeStyle = 'rgba(200, 200, 200, 0.6)';
+ctx.lineWidth = 3;
+ctx.beginPath();
+ctx.arc(100, 85, 50, 0, Math.PI * 2);
+ctx.stroke();
+
+// 렌즈 외곽
+ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+ctx.beginPath();
+ctx.arc(100, 85, 45, 0, Math.PI * 2);
+ctx.fill();
+
+// 렌즈 내부 (그라데이션)
+const lensGradient = ctx.createRadialGradient(100, 85, 0, 100, 85, 30);
+lensGradient.addColorStop(0, '#4285f4');
+lensGradient.addColorStop(1, '#1a56c7');
+ctx.fillStyle = lensGradient;
+ctx.beginPath();
+ctx.arc(100, 85, 30, 0, Math.PI * 2);
+ctx.fill();
+
+// 렌즈 반사광
+ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+ctx.beginPath();
+ctx.arc(90, 75, 8, 0, Math.PI * 2);
+ctx.fill();
+
+// 플래시 (오른쪽 상단)
+ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+roundRect(ctx, 160, 15, 15, 20, 4);
+ctx.fill();
+
+// 플래시 내부
+ctx.fillStyle = 'rgba(255, 200, 0, 0.6)';
+roundRect(ctx, 163, 18, 9, 14, 2);
+ctx.fill();
+
+// 타임라인 표시 (하단)
+ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+for (let i = 0; i < 4; i++) {
+  roundRect(ctx, 30 + i * 35, 130, 25, 10, 3);
+  ctx.fill();
+}
+
+ctx.restore();
+
+// 텍스트 영역 (오른쪽)
+const textStartX = 450;
+const textStartY = topMargin + 60;
+
+// 메인 제목
+ctx.fillStyle = 'white';
+ctx.font = 'bold 80px Arial, sans-serif';
+ctx.textAlign = 'left';
+ctx.textBaseline = 'top';
+ctx.fillText('SnapTrail', textStartX, textStartY);
+
+// 부제목 (카메라 이모지 포함)
+ctx.font = '40px Arial, sans-serif';
+ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+ctx.fillText('📸 무료 사진 타임라인 뷰어', textStartX, textStartY + 100);
+
+// 기능 설명 (점으로 구분)
+ctx.font = '30px Arial, sans-serif';
+ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+const features = 'EXIF 분석 · GPS 지도 · HEIC 지원 · ZIP 다운로드';
+ctx.fillText(features, textStartX, textStartY + 180);
+
+// 구분선
+ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(textStartX, textStartY + 250);
+ctx.lineTo(1050, textStartY + 250);
+ctx.stroke();
+
+// 하단 URL
+ctx.font = '24px Arial, sans-serif';
+ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+ctx.textAlign = 'center';
+ctx.fillText('snaptrail.ashlight.store', width / 2, 570);
+
+// roundRect 함수
+function roundRect(ctx, x, y, width, height, radius) {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+}
+
+// 파일 저장
+const outputPath = join(process.cwd(), 'public', 'og-image.png');
+const buffer = canvas.toBuffer('image/png');
+writeFileSync(outputPath, buffer);
+console.log(`✓ og-image.png 생성 완료: ${outputPath}`);
+console.log(`  크기: ${width}x${height}px`);
+
