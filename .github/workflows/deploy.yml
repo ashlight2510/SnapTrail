@@ -39,13 +39,27 @@ jobs:
           ls -la dist/
           echo ""
           echo "=== 필수 파일 확인 ==="
-          test -f dist/manifest.json && echo "✓ manifest.json 존재" || echo "✗ manifest.json 없음"
-          test -f dist/sw.js && echo "✓ sw.js 존재" || echo "✗ sw.js 없음"
-          test -f dist/.nojekyll && echo "✓ .nojekyll 존재" || echo "✗ .nojekyll 없음"
-          test -f dist/index.html && echo "✓ index.html 존재" || echo "✗ index.html 없음"
+          test -f dist/manifest.json && echo "✓ manifest.json 존재" || (echo "✗ manifest.json 없음" && exit 1)
+          test -f dist/sw.js && echo "✓ sw.js 존재" || (echo "✗ sw.js 없음" && exit 1)
+          test -f dist/.nojekyll && echo "✓ .nojekyll 존재" || (echo "✗ .nojekyll 없음" && exit 1)
+          test -f dist/index.html && echo "✓ index.html 존재" || (echo "✗ index.html 없음" && exit 1)
           echo ""
           echo "=== assets 폴더 확인 ==="
-          ls -la dist/assets/ 2>/dev/null || echo "assets 폴더 없음"
+          if [ -d dist/assets ]; then
+            ls -la dist/assets/
+            echo "✓ assets 폴더 존재"
+          else
+            echo "✗ assets 폴더 없음"
+            exit 1
+          fi
+          echo ""
+          echo "=== 빌드된 index.html 확인 ==="
+          if grep -q "/assets/index-" dist/index.html; then
+            echo "✓ 빌드된 index.html (올바른 경로)"
+          else
+            echo "✗ 빌드되지 않은 index.html (소스 파일)"
+            exit 1
+          fi
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
