@@ -33,6 +33,20 @@ jobs:
       - name: Build
         run: yarn build
       
+      - name: Verify build output
+        run: |
+          echo "=== 빌드 결과 확인 ==="
+          ls -la dist/
+          echo ""
+          echo "=== 필수 파일 확인 ==="
+          test -f dist/manifest.json && echo "✓ manifest.json 존재" || echo "✗ manifest.json 없음"
+          test -f dist/sw.js && echo "✓ sw.js 존재" || echo "✗ sw.js 없음"
+          test -f dist/.nojekyll && echo "✓ .nojekyll 존재" || echo "✗ .nojekyll 없음"
+          test -f dist/index.html && echo "✓ index.html 존재" || echo "✗ index.html 없음"
+          echo ""
+          echo "=== assets 폴더 확인 ==="
+          ls -la dist/assets/ 2>/dev/null || echo "assets 폴더 없음"
+      
       - name: Setup Pages
         uses: actions/configure-pages@v4
       

@@ -70,9 +70,34 @@ yarn preview
 
 ### 404 에러가 발생하는 경우
 
-1. `dist` 폴더에 `manifest.json`, `sw.js` 등이 있는지 확인
-2. GitHub Pages 설정에서 올바른 브랜치/폴더를 선택했는지 확인
-3. `.nojekyll` 파일이 있는지 확인
+1. **빌드 확인**:
+   ```bash
+   yarn build
+   ls -la dist/
+   ```
+   다음 파일들이 있어야 합니다:
+   - `index.html`
+   - `assets/` 폴더 (JS, CSS 파일들)
+   - `manifest.json`
+   - `sw.js`
+   - `.nojekyll`
+   - `privacy.html`, `terms.html`
+   - `robots.txt`, `sitemap.xml`
+
+2. **GitHub Pages 설정 확인**:
+   - Settings > Pages에서 GitHub Actions를 소스로 선택
+   - 배포가 완료될 때까지 기다리기 (몇 분 소요)
+
+3. **빌드 검증**:
+   ```bash
+   yarn build
+   ```
+   빌드 후 자동으로 파일 검증이 실행됩니다.
+
+4. **수동 확인**:
+   ```bash
+   node scripts/verify-build.js
+   ```
 
 ### MIME type 에러가 발생하는 경우
 
