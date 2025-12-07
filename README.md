@@ -17,12 +17,16 @@
 ### 설치
 
 ```bash
+yarn install
+# 또는
 npm install
 ```
 
 ### 개발 서버 실행
 
 ```bash
+yarn dev
+# 또는
 npm run dev
 ```
 
@@ -31,10 +35,24 @@ npm run dev
 ### 빌드
 
 ```bash
+yarn build
+# 또는
 npm run build
 ```
 
 빌드된 파일은 `dist/` 폴더에 생성됩니다.
+
+### GitHub Pages 배포
+
+1. GitHub Actions를 사용한 자동 배포 (권장):
+   - `main` 브랜치에 푸시하면 자동으로 배포됩니다
+   - Settings > Pages에서 GitHub Actions를 소스로 선택
+
+2. 수동 배포:
+   ```bash
+   yarn build
+   # dist 폴더의 내용을 gh-pages 브랜치에 푸시
+   ```
 
 ## 📦 기술 스택
 
@@ -73,6 +91,11 @@ npm run build
 /public
   manifest.json
   sw.js
+  privacy.html
+  terms.html
+  robots.txt
+  sitemap.xml
+  .nojekyll
 /src
   /components
     Timeline.js
@@ -84,6 +107,9 @@ npm run build
     grouping.js
     cache.js
     zip.js
+    geocoding.js
+    dateFormat.js
+    miniMap.js
   main.js
   style.css
 index.html
@@ -99,3 +125,9 @@ index.html
 
 MIT
 
+## 👤 개발자
+
+**AshLight**  
+이메일: ashlight2510@gmail.com
+
+© 2025 AshLight. All rights reserved.
