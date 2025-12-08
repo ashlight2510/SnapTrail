@@ -236,6 +236,15 @@
       <p>📁 사진을 여기에 드래그하거나 클릭하여 업로드하세요</p>
     </div>
 
+    <!-- 광고 섹션 1 (상단) -->
+    <section class="ad-section" style="display: flex; justify-content: center; align-items: center; margin: 30px 0; padding: 20px; width: 100%; visibility: visible; opacity: 1;">
+      <ins class="kakao_ad_area" 
+           data-ad-unit="DAN-uC61Wn2ZTKm6f8dZ"
+           data-ad-width="250"
+           data-ad-height="250"
+           style="display: block !important; margin: 0 auto; width: 250px; height: 250px; min-width: 250px; min-height: 250px; visibility: visible !important; opacity: 1 !important;"></ins>
+    </section>
+
     <div class="tabs">
       <button class="tab-btn active" data-tab="timeline">타임라인</button>
       <button class="tab-btn" data-tab="map">지도</button>
@@ -347,11 +356,18 @@
         </div>
       </div>
     </section>
-    <section><ins class="kakao_ad_area" style="display:none;"
-      data-ad-unit = "DAN-uC61Wn2ZTKm6f8dZ"
-      data-ad-width = "250"
-      data-ad-height = "250"></ins>
-      <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script></section>
+    
+    <!-- 광고 섹션 2 -->
+    <section class="ad-section" style="display: flex; justify-content: center; align-items: center; margin: 40px 0; padding: 20px; width: 100%; visibility: visible; opacity: 1; min-height: 290px;">
+      <div style="width: 300px; height: 250px; min-width: 300px; min-height: 250px; display: flex; justify-content: center; align-items: center;">
+        <ins class="kakao_ad_area" 
+             data-ad-unit="DAN-HMWQ8cudiDNq1P8J"
+             data-ad-width="300"
+             data-ad-height="250"
+             style="display: block !important; margin: 0 auto; width: 300px; height: 250px; min-width: 300px; min-height: 250px; visibility: visible !important; opacity: 1 !important; position: relative;"></ins>
+      </div>
+    </section>
+    
     <!-- 푸터 -->
     <footer class="footer">
       <div class="footer-content">
@@ -472,10 +488,78 @@
       Kakao.init('82751ba8dee918dd9548c805d3eaef67');
     }
     
-    // CSS 로드 후 body 표시 (FOUC 방지)
+    // CSS 로드 후 body 표시 및 광고 스크립트 로드 (FOUC 방지)
+    let adScriptLoaded = false;
+    function loadAdScript() {
+      // 광고 스크립트가 이미 로드되지 않았을 때만 로드
+      if (!adScriptLoaded && !document.querySelector('script[src*="ba.min.js"]')) {
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = '//t1.daumcdn.net/kas/static/ba.min.js';
+        script.async = true;
+        script.onload = function() {
+          adScriptLoaded = true;
+          // 광고 스크립트 로드 후 모든 광고 영역이 보이도록 처리
+          initAdAreas();
+        };
+        document.body.appendChild(script);
+      }
+    }
+    
+    // 광고 영역 초기화 및 스크롤 감지
+    function initAdAreas() {
+      const adAreas = document.querySelectorAll('.kakao_ad_area');
+      
+      // Intersection Observer로 광고가 화면에 보일 때 처리
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // 광고가 화면에 보일 때 광고 스크립트가 이미 로드되어 있으면
+              // 카카오 애드핏이 자동으로 감지하도록 약간의 지연 후 재시도
+              const adElement = entry.target;
+              if (adElement && !adElement.querySelector('iframe')) {
+                // 광고가 아직 로드되지 않았으면 강제로 다시 시도
+                setTimeout(() => {
+                  if (window.KakaoAdFit && window.KakaoAdFit.refresh) {
+                    window.KakaoAdFit.refresh(adElement);
+                  }
+                }, 500);
+              }
+            }
+          });
+        }, {
+          rootMargin: '50px', // 화면에 들어오기 50px 전에 감지
+          threshold: 0.1
+        });
+        
+        adAreas.forEach(ad => observer.observe(ad));
+      }
+      
+      // 스크롤 이벤트로도 처리 (Intersection Observer가 없는 경우 대비)
+      let scrollTimeout;
+      window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          adAreas.forEach(ad => {
+            const rect = ad.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+            if (isVisible && !ad.querySelector('iframe')) {
+              // 광고가 보이는데 아직 로드되지 않았으면 재시도
+              if (window.KakaoAdFit && window.KakaoAdFit.refresh) {
+                window.KakaoAdFit.refresh(ad);
+              }
+            }
+          });
+        }, 200);
+      }, { passive: true });
+    }
+    
     window.addEventListener('load', () => {
       // 모든 리소스 로드 완료 후 표시
       document.body.classList.add('loaded');
+      // body가 visible 상태가 된 후 광고 스크립트 로드
+      setTimeout(loadAdScript, 100);
     });
     
     // DOMContentLoaded 시에도 표시 (CSS가 빠르게 로드된 경우)
@@ -483,12 +567,16 @@
       document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
           document.body.classList.add('loaded');
+          // body가 visible 상태가 된 후 광고 스크립트 로드
+          setTimeout(loadAdScript, 200);
         }, 100);
       });
     } else {
       // 이미 로드된 경우 즉시 표시
       setTimeout(() => {
         document.body.classList.add('loaded');
+        // body가 visible 상태가 된 후 광고 스크립트 로드
+        setTimeout(loadAdScript, 200);
       }, 100);
     }
     
