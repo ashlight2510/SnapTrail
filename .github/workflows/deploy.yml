@@ -49,6 +49,12 @@ jobs:
           if [ -d dist/assets ]; then
             ls -la dist/assets/
             echo "✓ assets 폴더 존재"
+            ASSET_COUNT=$(ls -1 dist/assets/ | wc -l)
+            echo "  - assets 파일 개수: $ASSET_COUNT"
+            if [ "$ASSET_COUNT" -lt 2 ]; then
+              echo "✗ assets 파일이 너무 적습니다 (최소 2개 필요: JS, CSS)"
+              exit 1
+            fi
           else
             echo "✗ assets 폴더 없음"
             exit 1
@@ -57,9 +63,32 @@ jobs:
           echo "=== 빌드된 index.html 확인 ==="
           if grep -q "/assets/index-" dist/index.html; then
             echo "✓ 빌드된 index.html (올바른 경로)"
+            echo ""
+            echo "=== index.html 내용 일부 확인 ==="
+            grep -E "(src=|href=)" dist/index.html | head -5
+            echo ""
+            # 소스 파일 경로가 남아있는지 확인
+            if grep -q "/src/main.js" dist/index.html; then
+              echo "✗ 오류: 소스 파일 경로(/src/main.js)가 남아있습니다!"
+              echo "  이는 빌드가 제대로 되지 않았음을 의미합니다."
+              exit 1
+            else
+              echo "✓ 소스 파일 경로가 없음 (정상)"
+            fi
           else
             echo "✗ 빌드되지 않은 index.html (소스 파일)"
+            echo "  index.html 내용:"
+            grep -E "(script|link)" dist/index.html | head -10
             exit 1
+          fi
+          echo ""
+          echo "=== MIME type 확인 ==="
+          if grep -q 'type="module"' dist/index.html; then
+            if grep -q 'crossorigin' dist/index.html; then
+              echo "✓ 모듈 스크립트에 crossorigin 속성 있음 (정상)"
+            else
+              echo "⚠️  모듈 스크립트에 crossorigin 속성 없음"
+            fi
           fi
       
       - name: Setup Pages
