@@ -117,7 +117,7 @@ ctx.stroke();
 ctx.font = '24px Arial, sans-serif';
 ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
 ctx.textAlign = 'center';
-ctx.fillText('snaptrail.ashlight.store', width / 2, 570);
+ctx.fillText('snaptrail.funnyfunny.cloud', width / 2, 570);
 
 // roundRect 함수
 function roundRect(ctx, x, y, width, height, radius) {

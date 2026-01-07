@@ -52,7 +52,7 @@ GitHub Actions가 자동으로 배포합니다.
 
 1. **카카오톡 캐시**: 카카오톡은 이미지를 캐시하므로, URL에 버전 파라미터 추가:
    ```html
-   <meta property="og:image" content="https://snaptrail.ashlight.store/og-image.png?v=2">
+   <meta property="og:image" content="https://snaptrail.funnyfunny.cloud/og-image.png?v=2">
    ```
 
 2. **Facebook/카카오 디버거 사용**:

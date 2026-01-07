@@ -68,7 +68,7 @@ GitHub Actions에서:
 
 4. **파일 확인**:
    - 배포된 사이트에서 직접 파일 접근 시도:
-     - https://snaptrail.ashlight.store/manifest.json
-     - https://snaptrail.ashlight.store/sw.js
-     - https://snaptrail.ashlight.store/.nojekyll
+     - https://snaptrail.funnyfunny.cloud/manifest.json
+     - https://snaptrail.funnyfunny.cloud/sw.js
+     - https://snaptrail.funnyfunny.cloud/.nojekyll
 

@@ -100,7 +100,7 @@ function setupShareEvents(shareData) {
     try {
       // 카카오톡 공유는 Base64 이미지를 사용할 수 없으므로 HTTPS URL 필요
       // 옵션 1: 기본 OG 이미지 사용 (간단)
-      shareData.previewImageUrl = 'https://snaptrail.ashlight.store/og-image.png?v=2';
+      shareData.previewImageUrl = 'https://snaptrail.funnyfunny.cloud/og-image.png?v=2';
       
       // 옵션 2: 이미지를 생성하고 서버에 업로드 (고급)
       // const img = await generateShareImage(shareData.previewElementId || 'timeline-view');

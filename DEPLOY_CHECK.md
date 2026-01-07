@@ -33,7 +33,7 @@ git status
 
 ```bash
 # curl로 파일 존재 확인
-curl -I https://snaptrail.ashlight.store/og-image.png
+curl -I https://snaptrail.funnyfunny.cloud/og-image.png
 
 # 200 OK가 나와야 함
 # 404 Not Found면 파일이 배포되지 않은 것
@@ -89,7 +89,7 @@ git push origin main
 
 1. **파일 직접 확인**:
    ```
-   https://snaptrail.ashlight.store/og-image.png
+   https://snaptrail.funnyfunny.cloud/og-image.png
    ```
 
 2. **카카오톡 디버거**:

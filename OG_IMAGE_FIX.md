@@ -48,12 +48,12 @@ git push origin main
 
 #### 카카오톡
 1. https://developers.kakao.com/tool/clear/og 접속
-2. URL 입력: `https://snaptrail.ashlight.store/`
+2. URL 입력: `https://snaptrail.funnyfunny.cloud/`
 3. "스크랩 새로고침" 클릭
 
 #### Facebook
 1. https://developers.facebook.com/tools/debug/ 접속
-2. URL 입력: `https://snaptrail.ashlight.store/`
+2. URL 입력: `https://snaptrail.funnyfunny.cloud/`
 3. "스크랩 새로고침" 클릭
 
 #### 일반 브라우저
@@ -70,9 +70,9 @@ git push origin main
 
 배포 후 다음 URL들이 모두 200 OK를 반환해야 합니다:
 
-- https://snaptrail.ashlight.store/og-image.png?v=2
-- https://snaptrail.ashlight.store/manifest.json
-- https://snaptrail.ashlight.store/sw.js
+- https://snaptrail.funnyfunny.cloud/og-image.png?v=2
+- https://snaptrail.funnyfunny.cloud/manifest.json
+- https://snaptrail.funnyfunny.cloud/sw.js
 
 ## 예상 결과
 
@@ -84,7 +84,7 @@ git push origin main
 
 1. 파일이 실제로 배포되었는지 확인:
    ```bash
-   curl -I https://snaptrail.ashlight.store/og-image.png?v=2
+   curl -I https://snaptrail.funnyfunny.cloud/og-image.png?v=2
    ```
 
 2. GitHub Actions 로그 확인:

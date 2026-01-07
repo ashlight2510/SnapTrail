@@ -79,9 +79,9 @@ git push origin main
 
 배포 완료 후 다음 URL로 직접 접근하여 확인:
 
-- https://snaptrail.ashlight.store/manifest.json
-- https://snaptrail.ashlight.store/sw.js
-- https://snaptrail.ashlight.store/.nojekyll
+- https://snaptrail.funnyfunny.cloud/manifest.json
+- https://snaptrail.funnyfunny.cloud/sw.js
+- https://snaptrail.funnyfunny.cloud/.nojekyll
 
 모두 200 OK가 나와야 합니다.
 
@@ -117,7 +117,7 @@ yarn preview
 배포 후 다음 구조가 되어야 합니다:
 
 ```
-https://snaptrail.ashlight.store/
+https://snaptrail.funnyfunny.cloud/
 ├── index.html          (빌드된 버전, /assets/index-xxx.js 참조)
 ├── assets/
 │   ├── index-xxx.js

@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://snaptrail.ashlight.store/sitemap.xml
+Sitemap: https://snaptrail.funnyfunny.cloud/sitemap.xml
 
