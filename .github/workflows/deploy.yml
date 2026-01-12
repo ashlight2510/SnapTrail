@@ -1,9 +1,11 @@
+# DISABLED: Using static deployment instead (deploy-static.yml)
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches:
-      - main
+  # DISABLED - Using static deployment
+  # push:
+  #   branches:
+  #     - main
 
 permissions:
   contents: read

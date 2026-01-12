@@ -1,0 +1,58 @@
+name: Deploy Static HTML to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Copy static files
+        run: |
+          mkdir -p dist
+          # HTML 파일 복사
+          cp index.html dist/
+          # public 폴더 내용 복사
+          cp -r public/* dist/ 2>/dev/null || true
+          # src 폴더 복사 (ES6 모듈 그대로 사용)
+          mkdir -p dist/src
+          cp -r src/* dist/src/
+          # 파일 구조 확인
+          echo "=== 배포 파일 구조 ==="
+          ls -la dist/ | head -10
+          echo ""
+          test -f dist/index.html && echo "✓ index.html" || echo "✗ index.html 없음"
+          test -d dist/src && echo "✓ src 폴더" || echo "✗ src 폴더 없음"
+          test -f dist/manifest.json && echo "✓ manifest.json" || echo "✗ manifest.json 없음"
+          echo "✓ 정적 파일 복사 완료"
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
