@@ -26,60 +26,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
-      - name: Copy static files
+      - name: Install dependencies
         run: |
-          set -e  # 에러 발생 시 즉시 중단
-          
-          # dist 폴더 생성 및 초기화
-          rm -rf dist
-          mkdir -p dist
-          
-          # HTML 파일 복사
-          if [ ! -f index.html ]; then
-            echo "✗ 오류: index.html 파일을 찾을 수 없습니다"
-            exit 1
-          fi
-          cp index.html dist/
-          echo "✓ index.html 복사 완료"
-          
-          # public 폴더 내용 복사 (모든 파일, 숨김 파일 포함)
-          if [ -d public ] && [ "$(ls -A public 2>/dev/null)" ]; then
-            cp -r public/. dist/ 2>/dev/null || cp -r public/* dist/ 2>/dev/null || true
-            echo "✓ public 폴더 복사 완료"
-          else
-            echo "⚠ public 폴더가 비어있거나 없습니다"
-          fi
-          
-          # src 폴더 복사 (ES6 모듈 그대로 사용)
-          if [ ! -d src ]; then
-            echo "✗ 오류: src 폴더를 찾을 수 없습니다"
-            exit 1
-          fi
-          mkdir -p dist/src
-          cp -r src/. dist/src/ 2>/dev/null || cp -r src/* dist/src/ 2>/dev/null
-          echo "✓ src 폴더 복사 완료"
-          
-          # 파일 구조 확인
-          echo ""
-          echo "=== 배포 파일 구조 ==="
-          ls -la dist/ | head -15
-          if [ -d dist/src ]; then
-            echo ""
-            echo "=== src 폴더 구조 ==="
-            ls -la dist/src/ | head -10
-          fi
-          echo ""
-          echo "=== 필수 파일 확인 ==="
-          test -f dist/index.html && echo "✓ index.html" || (echo "✗ index.html 없음" && exit 1)
-          test -d dist/src && echo "✓ src 폴더" || (echo "✗ src 폴더 없음" && exit 1)
-          test -f dist/src/main.js && echo "✓ src/main.js" || (echo "✗ src/main.js 없음" && exit 1)
-          test -f dist/manifest.json && echo "✓ manifest.json" || echo "⚠ manifest.json 없음 (선택사항)"
-          test -f dist/.nojekyll && echo "✓ .nojekyll" || echo "⚠ .nojekyll 없음"
-          echo ""
-          echo "✓ 정적 파일 복사 완료"
+          corepack enable
+          yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
