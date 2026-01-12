@@ -1,230 +1,283 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#000000">
-  
-  <!-- SEO 메타 태그 -->
-  <title>SnapTrail - 무료 사진 타임라인 뷰어 | EXIF 분석, GPS 지도, HEIC 지원</title>
-  <meta name="description" content="SnapTrail은 사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱입니다. GPS 지도, HEIC 파일 지원, ZIP 다운로드 등 다양한 기능을 제공합니다. 회원가입 없이 바로 사용 가능합니다.">
-  <meta name="keywords" content="사진 타임라인, EXIF 분석, GPS 지도, HEIC 변환, 사진 관리, 무료 사진 뷰어, 사진 메타데이터, 사진 지도">
-  <meta name="author" content="AshLight">
-  <meta name="robots" content="index, follow">
-  <meta name="language" content="Korean">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://snaptrail.funnyfunny.cloud/">
-  <meta property="og:title" content="SnapTrail - 무료 사진 타임라인 뷰어">
-  <meta property="og:description" content="사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱. GPS 지도, HEIC 지원, ZIP 다운로드 기능 제공.">
-  <meta property="og:image" content="https://dummyimage.com/1200x630/1f2937/f9fafb&text=SnapTrail+Photo+Timeline">
-  <meta property="og:image:secure_url" content="https://snaptrail.funnyfunny.cloud/og-image.png?v=2">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:alt" content="SnapTrail Photo Timeline">
-  <meta property="og:site_name" content="SnapTrail">
-  <meta property="og:locale" content="ko_KR">
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://snaptrail.funnyfunny.cloud/">
-  <meta name="twitter:title" content="SnapTrail - 무료 사진 타임라인 뷰어">
-  <meta name="twitter:description" content="사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱.">
-  <meta name="twitter:image" content="https://snaptrail.funnyfunny.cloud/og-image.png?v=2">
-  <meta name="twitter:image:alt" content="SnapTrail - 사진 타임라인 뷰어">
-  <meta name="twitter:creator" content="@ashlight">
-  
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://snaptrail.funnyfunny.cloud/">
-  
-  <!-- 파비콘 -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E" />
-  <link rel="shortcut icon" href="/favicon.ico">
-  
-  <link rel="manifest" href="/manifest.json">
-  
-  <!-- 구조화된 데이터 (JSON-LD) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "SnapTrail",
-    "description": "사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱",
-    "url": "https://snaptrail.funnyfunny.cloud/",
-    "image": "https://snaptrail.funnyfunny.cloud/og-image.png?v=2",
-    "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "Web",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "KRW"
-    },
-    "author": {
-      "@type": "Person",
-      "name": "AshLight",
-      "email": "ashlight2510@gmail.com"
-    },
-    "featureList": [
-      "EXIF 메타데이터 분석",
-      "GPS 기반 지도 표시",
-      "HEIC 파일 지원",
-      "타임라인 뷰어",
-      "ZIP 다운로드",
-      "PWA 지원"
-    ]
-  }
-  </script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
-  
-  <!-- 초기 로딩 스타일 (FOUC 방지) -->
-  <style>
-    /* 초기 스타일 - CSS 로드 전에도 적용 */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background-color: #ffffff;
-      color: #333333;
-      line-height: 1.6;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.2s ease-in;
-    }
-    
-    body.loaded {
-      visibility: visible;
-      opacity: 1;
-    }
-    
-    @media (prefers-color-scheme: dark) {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- SEO 메타 태그 -->
+    <title>
+      SnapTrail - 무료 사진 타임라인 뷰어 | EXIF 분석, GPS 지도, HEIC 지원
+    </title>
+    <meta
+      name="description"
+      content="SnapTrail은 사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱입니다. GPS 지도, HEIC 파일 지원, ZIP 다운로드 등 다양한 기능을 제공합니다. 회원가입 없이 바로 사용 가능합니다."
+    />
+    <meta
+      name="keywords"
+      content="사진 타임라인, EXIF 분석, GPS 지도, HEIC 변환, 사진 관리, 무료 사진 뷰어, 사진 메타데이터, 사진 지도"
+    />
+    <meta name="author" content="AshLight" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="Korean" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://snaptrail.funnyfunny.cloud/" />
+    <meta property="og:title" content="SnapTrail - 무료 사진 타임라인 뷰어" />
+    <meta
+      property="og:description"
+      content="사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱. GPS 지도, HEIC 지원, ZIP 다운로드 기능 제공."
+    />
+    <meta
+      property="og:image"
+      content="https://dummyimage.com/1200x630/1f2937/f9fafb&text=SnapTrail+Photo+Timeline"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://snaptrail.funnyfunny.cloud/og-image.png?v=2"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="SnapTrail Photo Timeline" />
+    <meta property="og:site_name" content="SnapTrail" />
+    <meta property="og:locale" content="ko_KR" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://snaptrail.funnyfunny.cloud/" />
+    <meta name="twitter:title" content="SnapTrail - 무료 사진 타임라인 뷰어" />
+    <meta
+      name="twitter:description"
+      content="사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱."
+    />
+    <meta
+      name="twitter:image"
+      content="https://snaptrail.funnyfunny.cloud/og-image.png?v=2"
+    />
+    <meta name="twitter:image:alt" content="SnapTrail - 사진 타임라인 뷰어" />
+    <meta name="twitter:creator" content="@ashlight" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://snaptrail.funnyfunny.cloud/" />
+
+    <!-- 파비콘 -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%93%B8%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- 구조화된 데이터 (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "SnapTrail",
+        "description": "사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱",
+        "url": "https://snaptrail.funnyfunny.cloud/",
+        "image": "https://snaptrail.funnyfunny.cloud/og-image.png?v=2",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "KRW"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "AshLight",
+          "email": "ashlight2510@gmail.com"
+        },
+        "featureList": [
+          "EXIF 메타데이터 분석",
+          "GPS 기반 지도 표시",
+          "HEIC 파일 지원",
+          "타임라인 뷰어",
+          "ZIP 다운로드",
+          "PWA 지원"
+        ]
+      }
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"
+    />
+
+    <!-- 초기 로딩 스타일 (FOUC 방지) -->
+    <style>
+      /* 초기 스타일 - CSS 로드 전에도 적용 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       body {
-        background-color: #1a1a1a;
-        color: #e0e0e0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background-color: #ffffff;
+        color: #333333;
+        line-height: 1.6;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
       }
-    }
-    
-    #app {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      padding-bottom: 20px;
-      border-bottom: 2px solid #e0e0e0;
-    }
-    
-    @media (prefers-color-scheme: dark) {
+
+      body.loaded {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #1a1a1a;
+          color: #e0e0e0;
+        }
+      }
+
+      #app {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
       header {
-        border-bottom-color: #333333;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #e0e0e0;
       }
-    }
-    
-    header h1 {
-      font-size: 2rem;
-      font-weight: 600;
-    }
-    
-    .header-actions {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .upload-btn,
-    .clear-btn,
-    .share-btn {
-      padding: 10px 20px;
-      background-color: #4285f4;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 500;
-      display: inline-block;
-    }
-    
-    .clear-btn {
-      background-color: #dc3545;
-    }
-    
-    .share-btn {
-      background-color: #9c27b0;
-    }
-    
-    .drop-zone {
-      border: 3px dashed #e0e0e0;
-      border-radius: 12px;
-      padding: 60px 20px;
-      text-align: center;
-      margin-bottom: 30px;
-      background-color: #ffffff;
-    }
-    
-    @media (prefers-color-scheme: dark) {
+
+      @media (prefers-color-scheme: dark) {
+        header {
+          border-bottom-color: #333333;
+        }
+      }
+
+      header h1 {
+        font-size: 2rem;
+        font-weight: 600;
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .upload-btn,
+      .clear-btn,
+      .share-btn {
+        padding: 10px 20px;
+        background-color: #4285f4;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        display: inline-block;
+      }
+
+      .clear-btn {
+        background-color: #dc3545;
+      }
+
+      .share-btn {
+        background-color: #9c27b0;
+      }
+
       .drop-zone {
-        border-color: #333333;
-        background-color: #2a2a2a;
+        border: 3px dashed #e0e0e0;
+        border-radius: 12px;
+        padding: 60px 20px;
+        text-align: center;
+        margin-bottom: 30px;
+        background-color: #ffffff;
       }
-    }
-    
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 30px;
-      border-bottom: 2px solid #e0e0e0;
-    }
-    
-    @media (prefers-color-scheme: dark) {
+
+      @media (prefers-color-scheme: dark) {
+        .drop-zone {
+          border-color: #333333;
+          background-color: #2a2a2a;
+        }
+      }
+
       .tabs {
-        border-bottom-color: #333333;
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #e0e0e0;
       }
-    }
-    
-    .tab-btn {
-      padding: 12px 24px;
-      background: none;
-      border: none;
-      border-bottom: 3px solid transparent;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-    }
-    
-    .tab-content {
-      display: none;
-    }
-    
-    .tab-content.active {
-      display: block;
-    }
-  </style>
-  
-  <!-- 카카오 SDK -->
-  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1204894220949193"
-     crossorigin="anonymous"></script>
+
+      @media (prefers-color-scheme: dark) {
+        .tabs {
+          border-bottom-color: #333333;
+        }
+      }
+
+      .tab-btn {
+        padding: 12px 24px;
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+    </style>
+
+    <!-- 카카오 SDK -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1204894220949193"
+      crossorigin="anonymous"
+    ></script>
     <!-- responsive-base -->
     <style>
       /* responsive-base */
-      *, *::before, *::after {
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
       }
       html {
@@ -246,365 +299,503 @@
         word-break: break-word;
       }
     </style>
-</head>
-<body><div id="app">
-    <header>
-      <h1>📸 SnapTrail</h1>
-      <div class="header-actions">
-        <label for="file-input" class="upload-btn">사진 업로드</label>
-        <input type="file" id="file-input" multiple accept="image/*,.heic,.heif" style="display: none;">
-        <button id="share-btn" class="share-btn">공유하기</button>
-        <button id="clear-btn" class="clear-btn">초기화</button>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>📸 SnapTrail</h1>
+        <div class="header-actions">
+          <label for="file-input" class="upload-btn">사진 업로드</label>
+          <input
+            type="file"
+            id="file-input"
+            multiple
+            accept="image/*,.heic,.heif"
+            style="display: none"
+          />
+          <button id="share-btn" class="share-btn">공유하기</button>
+          <button id="clear-btn" class="clear-btn">초기화</button>
+        </div>
+      </header>
+
+      <div class="drop-zone" id="drop-zone">
+        <p>📁 사진을 여기에 드래그하거나 클릭하여 업로드하세요</p>
       </div>
-    </header>
 
-    <div class="drop-zone" id="drop-zone">
-      <p>📁 사진을 여기에 드래그하거나 클릭하여 업로드하세요</p>
-    </div>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="timeline">타임라인</button>
+        <button class="tab-btn" data-tab="map">지도</button>
+      </div>
 
-    <!-- 광고 섹션 1 (상단) -->
-    <section class="ad-section" style="display: flex; justify-content: center; align-items: center; margin: 30px 0; padding: 20px; width: 100%; visibility: visible; opacity: 1;">
+      <div id="loading" class="loading" style="display: none">
+        <div class="spinner"></div>
+        <p>사진을 분석 중...</p>
+      </div>
+
+      <main>
+        <div id="timeline-view" class="tab-content active"></div>
+        <div id="map-view" class="tab-content"></div>
+      </main>
+
+      <!-- 기능 소개 섹션 -->
+      <section class="features-section">
+        <h2>✨ SnapTrail의 주요 기능</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <h3>📸 EXIF 메타데이터 분석</h3>
+            <p>
+              사진에 포함된 촬영일, 카메라 기종, GPS 정보 등을 자동으로 추출하여
+              표시합니다.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>🗺️ GPS 기반 지도</h3>
+            <p>
+              위치 정보가 있는 사진을 지도에 마커로 표시하고, 주소로 변환하여
+              보여줍니다.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>📅 타임라인 뷰어</h3>
+            <p>
+              사진을 연도와 월별로 자동 그룹화하여 시간순으로 정리된 타임라인을
+              제공합니다.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>📱 HEIC 파일 지원</h3>
+            <p>
+              iPhone에서 찍은 HEIC/HEIF 파일을 자동으로 JPEG로 변환하여 사용할
+              수 있습니다.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>📦 ZIP 다운로드</h3>
+            <p>원하는 월의 사진을 한 번에 ZIP 파일로 다운로드할 수 있습니다.</p>
+          </div>
+          <div class="feature-card">
+            <h3>💾 로컬 저장</h3>
+            <p>
+              모든 데이터는 브라우저에만 저장되며, 새로고침 후에도 데이터가
+              유지됩니다.
+            </p>
+          </div>
+        </div>
       </section>
 
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="timeline">타임라인</button>
-      <button class="tab-btn" data-tab="map">지도</button>
-    </div>
+      <!-- 사용 가이드 섹션 -->
+      <section class="guide-section">
+        <h2>📖 사용 가이드</h2>
+        <div class="guide-steps">
+          <div class="guide-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>사진 업로드</h3>
+              <p>
+                드래그 앤 드롭 또는 "사진 업로드" 버튼을 클릭하여 사진을
+                업로드하세요. 여러 장을 한 번에 업로드할 수 있으며, HEIC 파일도
+                지원합니다.
+              </p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>타임라인 확인</h3>
+              <p>
+                업로드된 사진이 자동으로 연도와 월별로 그룹화되어 타임라인으로
+                표시됩니다. 각 사진의 촬영일과 카메라 정보를 확인할 수 있습니다.
+              </p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>지도에서 위치 확인</h3>
+              <p>
+                "지도" 탭을 클릭하면 GPS 정보가 있는 사진들이 지도에 마커로
+                표시됩니다. 마커를 클릭하면 사진과 위치 정보를 확인할 수
+                있습니다.
+              </p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>사진 다운로드</h3>
+              <p>
+                각 월 섹션의 "ZIP 다운로드" 버튼을 클릭하면 해당 월의 모든
+                사진을 ZIP 파일로 다운로드할 수 있습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <div id="loading" class="loading" style="display: none;">
-      <div class="spinner"></div>
-      <p>사진을 분석 중...</p>
-    </div>
+      <!-- FAQ 섹션 -->
+      <section class="faq-section" id="faq">
+        <h2>❓ 자주 묻는 질문 (FAQ)</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <h3>Q. SnapTrail은 무료인가요?</h3>
+            <p>
+              A. 네, 완전 무료입니다. 회원가입이나 설치 없이 바로 사용할 수
+              있습니다. 모든 기능을 무료로 이용하실 수 있습니다.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Q. 업로드한 사진은 어디에 저장되나요?</h3>
+            <p>
+              A. 모든 데이터는 사용자의 브라우저 로컬 스토리지에만 저장됩니다.
+              서버로 전송되지 않으며, 다른 사람이 접근할 수 없습니다. 브라우저
+              캐시를 삭제하면 저장된 데이터도 함께 삭제됩니다.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Q. iPhone HEIC 파일도 사용할 수 있나요?</h3>
+            <p>
+              A. 네, iPhone에서 찍은 HEIC/HEIF 파일을 자동으로 JPEG로 변환하여
+              사용할 수 있습니다. GPS 정보도 정확하게 추출됩니다.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Q. 모바일에서도 사용할 수 있나요?</h3>
+            <p>
+              A. 네, 반응형 디자인으로 구현되어 있어 스마트폰, 태블릿, 데스크톱
+              등 모든 기기에서 최적화된 화면으로 사용할 수 있습니다. PWA로
+              홈화면에 추가하여 앱처럼 사용할 수도 있습니다.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Q. GPS 정보가 없는 사진도 사용할 수 있나요?</h3>
+            <p>
+              A. 네, GPS 정보가 없어도 사진을 업로드하고 타임라인으로 볼 수
+              있습니다. GPS 정보가 있는 사진만 지도에 표시됩니다.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Q. 사진을 ZIP으로 다운로드할 수 있나요?</h3>
+            <p>
+              A. 네, 각 월별로 사진을 ZIP 파일로 다운로드할 수 있습니다.
+              타임라인에서 해당 월의 "ZIP 다운로드" 버튼을 클릭하세요.
+            </p>
+          </div>
+        </div>
+      </section>
 
-    <main>
-      <div id="timeline-view" class="tab-content active"></div>
-      <div id="map-view" class="tab-content"></div>
-    </main>
-    
-    <!-- 기능 소개 섹션 -->
-    <section class="features-section">
-      <h2>✨ SnapTrail의 주요 기능</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <h3>📸 EXIF 메타데이터 분석</h3>
-          <p>사진에 포함된 촬영일, 카메라 기종, GPS 정보 등을 자동으로 추출하여 표시합니다.</p>
-        </div>
-        <div class="feature-card">
-          <h3>🗺️ GPS 기반 지도</h3>
-          <p>위치 정보가 있는 사진을 지도에 마커로 표시하고, 주소로 변환하여 보여줍니다.</p>
-        </div>
-        <div class="feature-card">
-          <h3>📅 타임라인 뷰어</h3>
-          <p>사진을 연도와 월별로 자동 그룹화하여 시간순으로 정리된 타임라인을 제공합니다.</p>
-        </div>
-        <div class="feature-card">
-          <h3>📱 HEIC 파일 지원</h3>
-          <p>iPhone에서 찍은 HEIC/HEIF 파일을 자동으로 JPEG로 변환하여 사용할 수 있습니다.</p>
-        </div>
-        <div class="feature-card">
-          <h3>📦 ZIP 다운로드</h3>
-          <p>원하는 월의 사진을 한 번에 ZIP 파일로 다운로드할 수 있습니다.</p>
-        </div>
-        <div class="feature-card">
-          <h3>💾 로컬 저장</h3>
-          <p>모든 데이터는 브라우저에만 저장되며, 새로고침 후에도 데이터가 유지됩니다.</p>
-        </div>
-      </div>
-    </section>
-    
-    <!-- 사용 가이드 섹션 -->
-    <section class="guide-section">
-      <h2>📖 사용 가이드</h2>
-      <div class="guide-steps">
-        <div class="guide-step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h3>사진 업로드</h3>
-            <p>드래그 앤 드롭 또는 "사진 업로드" 버튼을 클릭하여 사진을 업로드하세요. 여러 장을 한 번에 업로드할 수 있으며, HEIC 파일도 지원합니다.</p>
+      <!-- 푸터 -->
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>SnapTrail</h3>
+            <p>사진의 추억을 타임라인으로 관리하세요</p>
+          </div>
+          <div class="footer-section">
+            <h3>링크</h3>
+            <ul>
+              <li><a href="#faq">자주 묻는 질문</a></li>
+              <li><a href="/privacy.html">개인정보 처리방침</a></li>
+              <li><a href="/terms.html">이용약관</a></li>
+              <li><a href="mailto:ashlight2510@gmail.com">문의하기</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>연락처</h3>
+            <p>
+              <a href="mailto:ashlight2510@gmail.com">ashlight2510@gmail.com</a>
+            </p>
           </div>
         </div>
-        <div class="guide-step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h3>타임라인 확인</h3>
-            <p>업로드된 사진이 자동으로 연도와 월별로 그룹화되어 타임라인으로 표시됩니다. 각 사진의 촬영일과 카메라 정보를 확인할 수 있습니다.</p>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h3>지도에서 위치 확인</h3>
-            <p>"지도" 탭을 클릭하면 GPS 정보가 있는 사진들이 지도에 마커로 표시됩니다. 마커를 클릭하면 사진과 위치 정보를 확인할 수 있습니다.</p>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="step-number">4</div>
-          <div class="step-content">
-            <h3>사진 다운로드</h3>
-            <p>각 월 섹션의 "ZIP 다운로드" 버튼을 클릭하면 해당 월의 모든 사진을 ZIP 파일로 다운로드할 수 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-    
-    <!-- FAQ 섹션 -->
-    <section class="faq-section" id="faq">
-      <h2>❓ 자주 묻는 질문 (FAQ)</h2>
-      <div class="faq-list">
-        <div class="faq-item">
-          <h3>Q. SnapTrail은 무료인가요?</h3>
-          <p>A. 네, 완전 무료입니다. 회원가입이나 설치 없이 바로 사용할 수 있습니다. 모든 기능을 무료로 이용하실 수 있습니다.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Q. 업로드한 사진은 어디에 저장되나요?</h3>
-          <p>A. 모든 데이터는 사용자의 브라우저 로컬 스토리지에만 저장됩니다. 서버로 전송되지 않으며, 다른 사람이 접근할 수 없습니다. 브라우저 캐시를 삭제하면 저장된 데이터도 함께 삭제됩니다.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Q. iPhone HEIC 파일도 사용할 수 있나요?</h3>
-          <p>A. 네, iPhone에서 찍은 HEIC/HEIF 파일을 자동으로 JPEG로 변환하여 사용할 수 있습니다. GPS 정보도 정확하게 추출됩니다.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Q. 모바일에서도 사용할 수 있나요?</h3>
-          <p>A. 네, 반응형 디자인으로 구현되어 있어 스마트폰, 태블릿, 데스크톱 등 모든 기기에서 최적화된 화면으로 사용할 수 있습니다. PWA로 홈화면에 추가하여 앱처럼 사용할 수도 있습니다.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Q. GPS 정보가 없는 사진도 사용할 수 있나요?</h3>
-          <p>A. 네, GPS 정보가 없어도 사진을 업로드하고 타임라인으로 볼 수 있습니다. GPS 정보가 있는 사진만 지도에 표시됩니다.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Q. 사진을 ZIP으로 다운로드할 수 있나요?</h3>
-          <p>A. 네, 각 월별로 사진을 ZIP 파일로 다운로드할 수 있습니다. 타임라인에서 해당 월의 "ZIP 다운로드" 버튼을 클릭하세요.</p>
-        </div>
-      </div>
-    </section>
-    
-    <!-- 광고 섹션 2 -->
-    <section class="ad-section" style="display: flex; justify-content: center; align-items: center; margin: 40px 0; padding: 20px; width: 100%; visibility: visible; opacity: 1; min-height: 290px;">
-      <div style="width: 300px; height: 250px; min-width: 300px; min-height: 250px; display: flex; justify-content: center; align-items: center;">
-        </div>
-    </section>
-    
-    <!-- 푸터 -->
-    <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>SnapTrail</h3>
-          <p>사진의 추억을 타임라인으로 관리하세요</p>
-        </div>
-        <div class="footer-section">
-          <h3>링크</h3>
-          <ul>
-            <li><a href="#faq">자주 묻는 질문</a></li>
-            <li><a href="/privacy.html">개인정보 처리방침</a></li>
-            <li><a href="/terms.html">이용약관</a></li>
-            <li><a href="mailto:ashlight2510@gmail.com">문의하기</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h3>연락처</h3>
+        <div class="footer-bottom">
           <p>
-            <a href="mailto:ashlight2510@gmail.com">ashlight2510@gmail.com</a>
+            © 2025 <a href="mailto:ashlight2510@gmail.com">AshLight</a>. All
+            rights reserved.
+          </p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- 공유 Bottom Sheet -->
+    <div id="share-sheet" class="share-sheet">
+      <div class="share-sheet-content">
+        <div class="share-sheet-header">
+          <h2>공유하기</h2>
+          <button class="share-close-btn" id="share-close-btn">&times;</button>
+        </div>
+
+        <div class="share-preview" id="share-preview-container">
+          <div id="share-preview" class="share-preview-content"></div>
+        </div>
+
+        <div class="share-options">
+          <button class="share-option-btn" id="share-kakao-btn">
+            <span class="share-icon share-icon-kakao">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="24" height="24" rx="12" fill="#FEE500" />
+                <path
+                  d="M12 4C7.58 4 4 7.13 4 11c0 2.38 1.19 4.47 3 5.74V20l3.31-1.82c.88.24 1.81.37 2.69.37 4.42 0 8-3.13 8-7s-3.58-7-8-7z"
+                  fill="#3C1E1E"
+                />
+              </svg>
+            </span>
+            <span>카카오톡으로 공유 </span>
+          </button>
+          <button class="share-option-btn" id="share-insta-btn">
+            <span class="share-icon share-icon-insta">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  x="2"
+                  y="2"
+                  width="20"
+                  height="20"
+                  rx="5"
+                  ry="5"
+                  fill="url(#instagram-gradient)"
+                />
+                <path
+                  d="M12 7.5c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5zm0 7.5c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6.5-8.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+                  fill="white"
+                />
+                <defs>
+                  <linearGradient
+                    id="instagram-gradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop
+                      offset="0%"
+                      style="stop-color: #833ab4; stop-opacity: 1"
+                    />
+                    <stop
+                      offset="50%"
+                      style="stop-color: #fd1d1d; stop-opacity: 1"
+                    />
+                    <stop
+                      offset="100%"
+                      style="stop-color: #fcaf45; stop-opacity: 1"
+                    />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
+            <span>인스타그램용 이미지 저장</span>
+          </button>
+          <button class="share-option-btn" id="share-copy-btn">
+            <span class="share-icon share-icon-copy">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                  fill="#4285f4"
+                />
+              </svg>
+            </span>
+            <span>링크 복사하기</span>
+          </button>
+          <button class="share-option-btn" id="share-image-btn">
+            <span class="share-icon share-icon-image">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
+                  fill="#34a853"
+                />
+              </svg>
+            </span>
+            <span>대표 이미지 저장하기</span>
+          </button>
+          <button class="share-option-btn" id="share-twitter-btn">
+            <span class="share-icon share-icon-twitter">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"
+                  fill="#1DA1F2"
+                />
+              </svg>
+            </span>
+            <span>트위터 공유</span>
+          </button>
+          <button class="share-option-btn" id="share-fb-btn">
+            <span class="share-icon share-icon-facebook">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                  fill="#1877F2"
+                />
+              </svg>
+            </span>
+            <span>페이스북 공유</span>
+          </button>
+        </div>
+
+        <div class="share-message">
+          <h3>공유 문구</h3>
+          <div class="share-message-text" id="share-message-text"></div>
+          <button class="share-copy-message-btn" id="share-copy-message-btn">
+            문구 복사
+          </button>
+          <p
+            class="share-instagram-hint"
+            id="share-instagram-hint"
+            style="display: none"
+          >
+            💡 인스타그램에 업로드하려면 위의 "인스타그램용 이미지 저장" 버튼을
+            눌러 이미지를 저장한 후, 인스타그램 앱에서 업로드하세요.
           </p>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>© 2025 <a href="mailto:ashlight2510@gmail.com">AshLight</a>. All rights reserved.</p>
-      </div>
-    </footer>
-  </div>
-
-  <!-- 공유 Bottom Sheet -->
-  <div id="share-sheet" class="share-sheet">
-    <div class="share-sheet-content">
-      <div class="share-sheet-header">
-        <h2>공유하기</h2>
-        <button class="share-close-btn" id="share-close-btn">&times;</button>
-      </div>
-      
-      <div class="share-preview" id="share-preview-container">
-        <div id="share-preview" class="share-preview-content"></div>
-      </div>
-      
-      <div class="share-options">
-        <button class="share-option-btn" id="share-kakao-btn">
-          <span class="share-icon share-icon-kakao">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="24" height="24" rx="12" fill="#FEE500"/>
-              <path d="M12 4C7.58 4 4 7.13 4 11c0 2.38 1.19 4.47 3 5.74V20l3.31-1.82c.88.24 1.81.37 2.69.37 4.42 0 8-3.13 8-7s-3.58-7-8-7z" fill="#3C1E1E"/>
-            </svg>
-          </span>
-          <span>카카오톡으로 공유 </span>
-        </button>
-        <button class="share-option-btn" id="share-insta-btn">
-          <span class="share-icon share-icon-insta">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="url(#instagram-gradient)"/>
-              <path d="M12 7.5c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5zm0 7.5c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6.5-8.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" fill="white"/>
-              <defs>
-                <linearGradient id="instagram-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#833AB4;stop-opacity:1" />
-                  <stop offset="50%" style="stop-color:#FD1D1D;stop-opacity:1" />
-                  <stop offset="100%" style="stop-color:#FCAF45;stop-opacity:1" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </span>
-          <span>인스타그램용 이미지 저장</span>
-        </button>
-        <button class="share-option-btn" id="share-copy-btn">
-          <span class="share-icon share-icon-copy">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="#4285f4"/>
-            </svg>
-          </span>
-          <span>링크 복사하기</span>
-        </button>
-        <button class="share-option-btn" id="share-image-btn">
-          <span class="share-icon share-icon-image">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" fill="#34a853"/>
-            </svg>
-          </span>
-          <span>대표 이미지 저장하기</span>
-        </button>
-        <button class="share-option-btn" id="share-twitter-btn">
-          <span class="share-icon share-icon-twitter">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" fill="#1DA1F2"/>
-            </svg>
-          </span>
-          <span>트위터 공유</span>
-        </button>
-        <button class="share-option-btn" id="share-fb-btn">
-          <span class="share-icon share-icon-facebook">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#1877F2"/>
-            </svg>
-          </span>
-          <span>페이스북 공유</span>
-        </button>
-      </div>
-      
-      <div class="share-message">
-        <h3>공유 문구</h3>
-        <div class="share-message-text" id="share-message-text"></div>
-        <button class="share-copy-message-btn" id="share-copy-message-btn">문구 복사</button>
-        <p class="share-instagram-hint" id="share-instagram-hint" style="display: none;">
-          💡 인스타그램에 업로드하려면 위의 "인스타그램용 이미지 저장" 버튼을 눌러 이미지를 저장한 후, 인스타그램 앱에서 업로드하세요.
-        </p>
-      </div>
+      <div class="share-sheet-backdrop" id="share-sheet-backdrop"></div>
     </div>
-    <div class="share-sheet-backdrop" id="share-sheet-backdrop"></div>
-  </div>
 
-  <script type="module" src="/src/main.js"></script>
-  <script>
-    // 카카오 SDK 초기화
-    if (typeof Kakao !== 'undefined') {
-      Kakao.init('82751ba8dee918dd9548c805d3eaef67');
-    }
-    
-    // CSS 로드 후 body 표시 (FOUC 방지)
-    
-    window.addEventListener('load', () => {
-      // 모든 리소스 로드 완료 후 표시
-      document.body.classList.add('loaded');
-    });
-    
-    // DOMContentLoaded 시에도 표시 (CSS가 빠르게 로드된 경우)
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        setTimeout(() => {
-          document.body.classList.add('loaded');
-        }, 100);
+    <script type="module" src="/src/main.js"></script>
+    <script>
+      // 카카오 SDK 초기화
+      if (typeof Kakao !== "undefined") {
+        Kakao.init("82751ba8dee918dd9548c805d3eaef67");
+      }
+
+      // CSS 로드 후 body 표시 (FOUC 방지)
+
+      window.addEventListener("load", () => {
+        // 모든 리소스 로드 완료 후 표시
+        document.body.classList.add("loaded");
       });
-    } else {
-      // 이미 로드된 경우 즉시 표시
-      setTimeout(() => {
-        document.body.classList.add('loaded');
-      }, 100);
-    }
-    
-    // Service Worker는 선택적으로 로드 (GitHub Pages에서 제한적일 수 있음)
-    if ('serviceWorker' in navigator && location.protocol === 'https:') {
-      // Service Worker 파일 존재 여부 확인 후 등록
-      fetch('/sw.js', { method: 'HEAD' })
-        .then(response => {
-          if (response.ok) {
-            return navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' });
-          } else {
-            console.warn('Service Worker 파일을 찾을 수 없습니다.');
-            return null;
-          }
-        })
-        .then((registration) => {
-          if (registration) {
-            console.log('Service Worker 등록 완료');
-            
-            registration.addEventListener('updatefound', () => {
-              const newWorker = registration.installing;
-              newWorker.addEventListener('statechange', () => {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  if (confirm('새 버전이 있습니다. 페이지를 새로고침하시겠습니까?')) {
-                    window.location.reload();
-                  }
-                }
-              });
-            });
-            
-            navigator.serviceWorker.addEventListener('controllerchange', () => {
-              window.location.reload();
-            });
-          }
-        })
-        .catch(err => {
-          // Service Worker 등록 실패는 무시 (GitHub Pages에서 정상)
-          console.warn('Service Worker 등록 실패 (정상일 수 있음):', err.message);
-        });
-    }
-  </script>
 
-    
+      // DOMContentLoaded 시에도 표시 (CSS가 빠르게 로드된 경우)
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+          setTimeout(() => {
+            document.body.classList.add("loaded");
+          }, 100);
+        });
+      } else {
+        // 이미 로드된 경우 즉시 표시
+        setTimeout(() => {
+          document.body.classList.add("loaded");
+        }, 100);
+      }
+
+      // Service Worker는 선택적으로 로드 (GitHub Pages에서 제한적일 수 있음)
+      if ("serviceWorker" in navigator && location.protocol === "https:") {
+        // Service Worker 파일 존재 여부 확인 후 등록
+        fetch("/sw.js", { method: "HEAD" })
+          .then((response) => {
+            if (response.ok) {
+              return navigator.serviceWorker.register("/sw.js", {
+                updateViaCache: "none",
+              });
+            } else {
+              console.warn("Service Worker 파일을 찾을 수 없습니다.");
+              return null;
+            }
+          })
+          .then((registration) => {
+            if (registration) {
+              console.log("Service Worker 등록 완료");
+
+              registration.addEventListener("updatefound", () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener("statechange", () => {
+                  if (
+                    newWorker.state === "installed" &&
+                    navigator.serviceWorker.controller
+                  ) {
+                    if (
+                      confirm(
+                        "새 버전이 있습니다. 페이지를 새로고침하시겠습니까?"
+                      )
+                    ) {
+                      window.location.reload();
+                    }
+                  }
+                });
+              });
+
+              navigator.serviceWorker.addEventListener(
+                "controllerchange",
+                () => {
+                  window.location.reload();
+                }
+              );
+            }
+          })
+          .catch((err) => {
+            // Service Worker 등록 실패는 무시 (GitHub Pages에서 정상)
+            console.warn(
+              "Service Worker 등록 실패 (정상일 수 있음):",
+              err.message
+            );
+          });
+      }
+    </script>
+
     <script>
       (function () {
-        'use strict';
-        const targetUrl = 'https://funnyfunny.cloud/';
+        "use strict";
+        const targetUrl = "https://funnyfunny.cloud/";
         function addMoreTestsButton() {
-          if (document.getElementById('more-tests-btn')) return;
-          const moreBtn = document.createElement('button');
-          moreBtn.id = 'more-tests-btn';
-          moreBtn.type = 'button';
+          if (document.getElementById("more-tests-btn")) return;
+          const moreBtn = document.createElement("button");
+          moreBtn.id = "more-tests-btn";
+          moreBtn.type = "button";
           moreBtn.dataset.url = targetUrl;
-          moreBtn.textContent = '더 많은 테스트 해보기';
-          moreBtn.className = 'w-full py-4 bg-white border border-purple-100 text-purple-700 font-semibold rounded-xl hover:bg-purple-50 hover:border-purple-200 transition-all duration-200 mt-3';
-          moreBtn.addEventListener('click', function () {
-            window.open(targetUrl, '_blank', 'noopener');
+          moreBtn.textContent = "더 많은 테스트 해보기";
+          moreBtn.className =
+            "w-full py-4 bg-white border border-purple-100 text-purple-700 font-semibold rounded-xl hover:bg-purple-50 hover:border-purple-200 transition-all duration-200 mt-3";
+          moreBtn.addEventListener("click", function () {
+            window.open(targetUrl, "_blank", "noopener");
           });
-          const shareButton = document.querySelector("button#share-btn, button#shareBtn, button[id*=\"share\"]");
+          const shareButton = document.querySelector(
+            'button#share-btn, button#shareBtn, button[id*="share"]'
+          );
           if (shareButton) {
-            shareButton.insertAdjacentElement('afterend', moreBtn);
+            shareButton.insertAdjacentElement("afterend", moreBtn);
           } else if (document.body) {
             document.body.appendChild(moreBtn);
           }
         }
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', addMoreTestsButton);
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", addMoreTestsButton);
         } else {
           addMoreTestsButton();
         }
       })();
     </script>
 
-
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-1204894220949193"
-     data-ad-slot="5145068706"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-  
-</body>
+    <ins
+      class="adsbygoogle"
+      style="display: block"
+      data-ad-client="ca-pub-1204894220949193"
+      data-ad-slot="5145068706"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    ></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </body>
 </html>
