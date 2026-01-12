@@ -72,7 +72,11 @@ header h1 {
   font-size: 1rem;
   font-weight: 500;
   transition: background-color 0.2s;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  line-height: 1;
 }
 
 .upload-btn:hover,
@@ -911,6 +915,8 @@ header h1 {
   justify-content: center;
   gap: 8px;
   padding: 10px 20px;
+  min-height: 44px;
+  line-height: 1;
   margin-top: 16px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -969,4 +975,3 @@ header h1 {
     background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
   }
 }
-
