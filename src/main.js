@@ -5,7 +5,8 @@ import { convertHeicFiles } from './utils/heic.js';
 import { renderTimeline } from './components/Timeline.js';
 import { initMap, updateMapMarkers } from './components/MapView.js';
 import { openShareSheet } from './components/ShareSheet.js';
-import './style.css';
+// CSS는 HTML에서 직접 로드 (정적 배포용)
+// import './style.css';
 
 let allPhotos = [];
 
