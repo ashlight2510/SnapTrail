@@ -763,9 +763,32 @@
           moreBtn.id = "more-tests-btn";
           moreBtn.type = "button";
           moreBtn.dataset.url = targetUrl;
-          moreBtn.textContent = "더 많은 테스트 해보기";
-          moreBtn.className =
-            "w-full py-4 bg-white border border-purple-100 text-purple-700 font-semibold rounded-xl hover:bg-purple-50 hover:border-purple-200 transition-all duration-200 mt-3";
+
+          // 아이콘 SVG 추가
+          const iconSvg = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "svg"
+          );
+          iconSvg.setAttribute("viewBox", "0 0 24 24");
+          iconSvg.setAttribute("fill", "none");
+          iconSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+          const path = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path"
+          );
+          path.setAttribute("d", "M13 7L18 12L13 17M6 7L11 12L6 17");
+          path.setAttribute("stroke", "currentColor");
+          path.setAttribute("stroke-width", "2");
+          path.setAttribute("stroke-linecap", "round");
+          path.setAttribute("stroke-linejoin", "round");
+          iconSvg.appendChild(path);
+
+          // 텍스트 추가
+          const text = document.createTextNode("더 많은 테스트 해보기");
+
+          moreBtn.appendChild(iconSvg);
+          moreBtn.appendChild(text);
+
           moreBtn.addEventListener("click", function () {
             window.open(targetUrl, "_blank", "noopener");
           });
