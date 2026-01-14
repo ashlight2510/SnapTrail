@@ -73,13 +73,17 @@ function setupEventListeners() {
     const previewElementId = activeTab?.id || 'timeline-view';
     
     // 공유 데이터 생성
+    const t = window.t || ((key, vars = {}) => key);
     const shareData = {
       title: photoCount > 0 
-        ? `${photoCount}장의 사진 타임라인` 
-        : 'SnapTrail - 사진 타임라인 뷰어',
+        ? t('shareTitleTemplate', { count: photoCount })
+        : t('shareTitleDefault'),
       description: photoCount > 0
-        ? `촬영한 ${photoCount}장의 사진을 타임라인으로 확인하세요.${gpsCount > 0 ? ` 위치 정보가 있는 사진 ${gpsCount}장이 지도에 표시됩니다.` : ''}`
-        : '사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱',
+        ? t('shareDescTemplate', { 
+            count: photoCount,
+            gpsInfo: gpsCount > 0 ? t('shareDescGPS', { gpsCount }) : ''
+          })
+        : t('shareDescDefault'),
       shareUrl: window.location.href,
       previewElementId: previewElementId
     };
@@ -89,7 +93,8 @@ function setupEventListeners() {
   
   // 초기화 버튼
   clearBtn.addEventListener('click', async () => {
-    if (confirm('모든 사진과 캐시를 삭제하시겠습니까?')) {
+    const t = window.t || ((key, vars = {}) => key);
+    if (confirm(t('confirmClear'))) {
       allPhotos = [];
       clearCache();
       
@@ -118,7 +123,8 @@ function setupEventListeners() {
       }
       
       updateUI();
-      alert('모든 데이터가 삭제되었습니다. 페이지를 새로고침해주세요.');
+      const t = window.t || ((key, vars = {}) => key);
+      alert(t('alertClearDone'));
     }
   });
 }
@@ -229,7 +235,8 @@ async function handleFiles(files) {
     console.log(`${newPhotos.length}개의 사진이 추가되었습니다.`);
   } catch (error) {
     console.error('파일 처리 중 오류:', error);
-    alert('파일 처리 중 오류가 발생했습니다.');
+    const t = window.t || ((key, vars = {}) => key);
+    alert(t('alertFileError'));
   } finally {
     loading.style.display = 'none';
   }

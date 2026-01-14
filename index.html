@@ -314,13 +314,67 @@
         text-align: center;
 }
   </style>
+  <style>
+    .lang-switch {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      display: inline-flex;
+      gap: 0;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+    }
+    .lang-switch button {
+      border: none;
+      background: transparent;
+      color: rgba(0, 0, 0, 0.7);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 44px;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .lang-switch button.active {
+      background: #4285f4;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(66, 133, 244, 0.4);
+    }
+    .lang-switch button:not(.active):hover {
+      background: rgba(66, 133, 244, 0.1);
+      color: rgba(0, 0, 0, 0.9);
+    }
+    @media (prefers-color-scheme: dark) {
+      .lang-switch {
+        background: rgba(26, 26, 26, 0.95);
+      }
+      .lang-switch button {
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .lang-switch button:not(.active):hover {
+        background: rgba(66, 133, 244, 0.2);
+        color: rgba(255, 255, 255, 0.9);
+      }
+    }
+  </style>
 </head>
   <body>
+    <div class="lang-switch" role="tablist" aria-label="Language switcher">
+      <button type="button" data-lang="ko" class="active">KR</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
     <div id="app">
       <header>
         <h1>📸 SnapTrail</h1>
         <div class="header-actions">
-          <label for="file-input" class="upload-btn">사진 업로드</label>
+          <label for="file-input" class="upload-btn" data-i18n="btnUpload">사진 업로드</label>
           <input
             type="file"
             id="file-input"
@@ -328,23 +382,23 @@
             accept="image/*,.heic,.heif"
             style="display: none"
           />
-          <button id="share-btn" class="share-btn">공유하기</button>
-          <button id="clear-btn" class="clear-btn">초기화</button>
+          <button id="share-btn" class="share-btn" data-i18n="btnShare">공유하기</button>
+          <button id="clear-btn" class="clear-btn" data-i18n="btnClear">초기화</button>
         </div>
       </header>
 
       <div class="drop-zone" id="drop-zone">
-        <p>📁 사진을 여기에 드래그하거나 클릭하여 업로드하세요</p>
+        <p data-i18n="dropZoneText">📁 사진을 여기에 드래그하거나 클릭하여 업로드하세요</p>
       </div>
 
       <div class="tabs">
-        <button class="tab-btn active" data-tab="timeline">타임라인</button>
-        <button class="tab-btn" data-tab="map">지도</button>
+        <button class="tab-btn active" data-tab="timeline" data-i18n="tabTimeline">타임라인</button>
+        <button class="tab-btn" data-tab="map" data-i18n="tabMap">지도</button>
       </div>
 
       <div id="loading" class="loading" style="display: none">
         <div class="spinner"></div>
-        <p>사진을 분석 중...</p>
+        <p data-i18n="loadingText">사진을 분석 중...</p>
       </div>
 
       <main>
@@ -354,43 +408,43 @@
 
       <!-- 기능 소개 섹션 -->
       <section class="features-section">
-        <h2>✨ SnapTrail의 주요 기능</h2>
+        <h2 data-i18n="featuresTitle">✨ SnapTrail의 주요 기능</h2>
         <div class="features-grid">
           <div class="feature-card">
-            <h3>📸 EXIF 메타데이터 분석</h3>
-            <p>
+            <h3 data-i18n="featureExif">📸 EXIF 메타데이터 분석</h3>
+            <p data-i18n="featureExifDesc">
               사진에 포함된 촬영일, 카메라 기종, GPS 정보 등을 자동으로 추출하여
               표시합니다.
             </p>
           </div>
           <div class="feature-card">
-            <h3>🗺️ GPS 기반 지도</h3>
-            <p>
+            <h3 data-i18n="featureGPS">🗺️ GPS 기반 지도</h3>
+            <p data-i18n="featureGPSDesc">
               위치 정보가 있는 사진을 지도에 마커로 표시하고, 주소로 변환하여
               보여줍니다.
             </p>
           </div>
           <div class="feature-card">
-            <h3>📅 타임라인 뷰어</h3>
-            <p>
+            <h3 data-i18n="featureTimeline">📅 타임라인 뷰어</h3>
+            <p data-i18n="featureTimelineDesc">
               사진을 연도와 월별로 자동 그룹화하여 시간순으로 정리된 타임라인을
               제공합니다.
             </p>
           </div>
           <div class="feature-card">
-            <h3>📱 HEIC 파일 지원</h3>
-            <p>
+            <h3 data-i18n="featureHEIC">📱 HEIC 파일 지원</h3>
+            <p data-i18n="featureHEICDesc">
               iPhone에서 찍은 HEIC/HEIF 파일을 자동으로 JPEG로 변환하여 사용할
               수 있습니다.
             </p>
           </div>
           <div class="feature-card">
-            <h3>📦 ZIP 다운로드</h3>
-            <p>원하는 월의 사진을 한 번에 ZIP 파일로 다운로드할 수 있습니다.</p>
+            <h3 data-i18n="featureZIP">📦 ZIP 다운로드</h3>
+            <p data-i18n="featureZIPDesc">원하는 월의 사진을 한 번에 ZIP 파일로 다운로드할 수 있습니다.</p>
           </div>
           <div class="feature-card">
-            <h3>💾 로컬 저장</h3>
-            <p>
+            <h3 data-i18n="featureLocal">💾 로컬 저장</h3>
+            <p data-i18n="featureLocalDesc">
               모든 데이터는 브라우저에만 저장되며, 새로고침 후에도 데이터가
               유지됩니다.
             </p>
@@ -400,13 +454,13 @@
 
       <!-- 사용 가이드 섹션 -->
       <section class="guide-section">
-        <h2>📖 사용 가이드</h2>
+        <h2 data-i18n="guideTitle">📖 사용 가이드</h2>
         <div class="guide-steps">
           <div class="guide-step">
             <div class="step-number">1</div>
             <div class="step-content">
-              <h3>사진 업로드</h3>
-              <p>
+              <h3 data-i18n="guideStep1Title">사진 업로드</h3>
+              <p data-i18n="guideStep1Desc">
                 드래그 앤 드롭 또는 "사진 업로드" 버튼을 클릭하여 사진을
                 업로드하세요. 여러 장을 한 번에 업로드할 수 있으며, HEIC 파일도
                 지원합니다.
@@ -416,8 +470,8 @@
           <div class="guide-step">
             <div class="step-number">2</div>
             <div class="step-content">
-              <h3>타임라인 확인</h3>
-              <p>
+              <h3 data-i18n="guideStep2Title">타임라인 확인</h3>
+              <p data-i18n="guideStep2Desc">
                 업로드된 사진이 자동으로 연도와 월별로 그룹화되어 타임라인으로
                 표시됩니다. 각 사진의 촬영일과 카메라 정보를 확인할 수 있습니다.
               </p>
@@ -426,8 +480,8 @@
           <div class="guide-step">
             <div class="step-number">3</div>
             <div class="step-content">
-              <h3>지도에서 위치 확인</h3>
-              <p>
+              <h3 data-i18n="guideStep3Title">지도에서 위치 확인</h3>
+              <p data-i18n="guideStep3Desc">
                 "지도" 탭을 클릭하면 GPS 정보가 있는 사진들이 지도에 마커로
                 표시됩니다. 마커를 클릭하면 사진과 위치 정보를 확인할 수
                 있습니다.
@@ -437,8 +491,8 @@
           <div class="guide-step">
             <div class="step-number">4</div>
             <div class="step-content">
-              <h3>사진 다운로드</h3>
-              <p>
+              <h3 data-i18n="guideStep4Title">사진 다운로드</h3>
+              <p data-i18n="guideStep4Desc">
                 각 월 섹션의 "ZIP 다운로드" 버튼을 클릭하면 해당 월의 모든
                 사진을 ZIP 파일로 다운로드할 수 있습니다.
               </p>
@@ -449,48 +503,48 @@
 
       <!-- FAQ 섹션 -->
       <section class="faq-section" id="faq">
-        <h2>❓ 자주 묻는 질문 (FAQ)</h2>
+        <h2 data-i18n="faqTitle">❓ 자주 묻는 질문 (FAQ)</h2>
         <div class="faq-list">
           <div class="faq-item">
-            <h3>Q. SnapTrail은 무료인가요?</h3>
-            <p>
+            <h3 data-i18n="faq1Q">Q. SnapTrail은 무료인가요?</h3>
+            <p data-i18n="faq1A">
               A. 네, 완전 무료입니다. 회원가입이나 설치 없이 바로 사용할 수
               있습니다. 모든 기능을 무료로 이용하실 수 있습니다.
             </p>
           </div>
           <div class="faq-item">
-            <h3>Q. 업로드한 사진은 어디에 저장되나요?</h3>
-            <p>
+            <h3 data-i18n="faq2Q">Q. 업로드한 사진은 어디에 저장되나요?</h3>
+            <p data-i18n="faq2A">
               A. 모든 데이터는 사용자의 브라우저 로컬 스토리지에만 저장됩니다.
               서버로 전송되지 않으며, 다른 사람이 접근할 수 없습니다. 브라우저
               캐시를 삭제하면 저장된 데이터도 함께 삭제됩니다.
             </p>
           </div>
           <div class="faq-item">
-            <h3>Q. iPhone HEIC 파일도 사용할 수 있나요?</h3>
-            <p>
+            <h3 data-i18n="faq3Q">Q. iPhone HEIC 파일도 사용할 수 있나요?</h3>
+            <p data-i18n="faq3A">
               A. 네, iPhone에서 찍은 HEIC/HEIF 파일을 자동으로 JPEG로 변환하여
               사용할 수 있습니다. GPS 정보도 정확하게 추출됩니다.
             </p>
           </div>
           <div class="faq-item">
-            <h3>Q. 모바일에서도 사용할 수 있나요?</h3>
-            <p>
+            <h3 data-i18n="faq4Q">Q. 모바일에서도 사용할 수 있나요?</h3>
+            <p data-i18n="faq4A">
               A. 네, 반응형 디자인으로 구현되어 있어 스마트폰, 태블릿, 데스크톱
               등 모든 기기에서 최적화된 화면으로 사용할 수 있습니다. PWA로
               홈화면에 추가하여 앱처럼 사용할 수도 있습니다.
             </p>
           </div>
           <div class="faq-item">
-            <h3>Q. GPS 정보가 없는 사진도 사용할 수 있나요?</h3>
-            <p>
+            <h3 data-i18n="faq5Q">Q. GPS 정보가 없는 사진도 사용할 수 있나요?</h3>
+            <p data-i18n="faq5A">
               A. 네, GPS 정보가 없어도 사진을 업로드하고 타임라인으로 볼 수
               있습니다. GPS 정보가 있는 사진만 지도에 표시됩니다.
             </p>
           </div>
           <div class="faq-item">
-            <h3>Q. 사진을 ZIP으로 다운로드할 수 있나요?</h3>
-            <p>
+            <h3 data-i18n="faq6Q">Q. 사진을 ZIP으로 다운로드할 수 있나요?</h3>
+            <p data-i18n="faq6A">
               A. 네, 각 월별로 사진을 ZIP 파일로 다운로드할 수 있습니다.
               타임라인에서 해당 월의 "ZIP 다운로드" 버튼을 클릭하세요.
             </p>
@@ -503,19 +557,19 @@
         <div class="footer-content">
           <div class="footer-section">
             <h3>SnapTrail</h3>
-            <p>사진의 추억을 타임라인으로 관리하세요</p>
+            <p data-i18n="footerTagline">사진의 추억을 타임라인으로 관리하세요</p>
           </div>
           <div class="footer-section">
-            <h3>링크</h3>
+            <h3 data-i18n="footerLinks">링크</h3>
             <ul>
-              <li><a href="#faq">자주 묻는 질문</a></li>
-              <li><a href="/privacy.html">개인정보 처리방침</a></li>
-              <li><a href="/terms.html">이용약관</a></li>
-              <li><a href="mailto:ashlight2510@gmail.com">문의하기</a></li>
+              <li><a href="#faq" data-i18n="footerFAQ">자주 묻는 질문</a></li>
+              <li><a href="/privacy.html" data-i18n="footerPrivacy">개인정보 처리방침</a></li>
+              <li><a href="/terms.html" data-i18n="footerTerms">이용약관</a></li>
+              <li><a href="mailto:ashlight2510@gmail.com" data-i18n="footerContact">문의하기</a></li>
             </ul>
           </div>
           <div class="footer-section">
-            <h3>연락처</h3>
+            <h3 data-i18n="footerContactTitle">연락처</h3>
             <p>
               <a href="mailto:ashlight2510@gmail.com">ashlight2510@gmail.com</a>
             </p>
@@ -534,7 +588,7 @@
     <div id="share-sheet" class="share-sheet">
       <div class="share-sheet-content">
         <div class="share-sheet-header">
-          <h2>공유하기</h2>
+          <h2 data-i18n="shareSheetTitle">공유하기</h2>
           <button class="share-close-btn" id="share-close-btn">&times;</button>
         </div>
 
@@ -557,7 +611,7 @@
                 />
               </svg>
             </span>
-            <span>카카오톡으로 공유 </span>
+            <span data-i18n="shareKakao">카카오톡으로 공유 </span>
           </button>
           <button class="share-option-btn" id="share-insta-btn">
             <span class="share-icon share-icon-insta">
@@ -603,7 +657,7 @@
                 </defs>
               </svg>
             </span>
-            <span>인스타그램용 이미지 저장</span>
+            <span data-i18n="shareInstagram">인스타그램용 이미지 저장</span>
           </button>
           <button class="share-option-btn" id="share-copy-btn">
             <span class="share-icon share-icon-copy">
@@ -618,7 +672,7 @@
                 />
               </svg>
             </span>
-            <span>링크 복사하기</span>
+            <span data-i18n="shareCopyLink">링크 복사하기</span>
           </button>
           <button class="share-option-btn" id="share-image-btn">
             <span class="share-icon share-icon-image">
@@ -633,7 +687,7 @@
                 />
               </svg>
             </span>
-            <span>대표 이미지 저장하기</span>
+            <span data-i18n="shareDownloadImage">대표 이미지 저장하기</span>
           </button>
           <button class="share-option-btn" id="share-twitter-btn">
             <span class="share-icon share-icon-twitter">
@@ -648,7 +702,7 @@
                 />
               </svg>
             </span>
-            <span>트위터 공유</span>
+            <span data-i18n="shareTwitter">트위터 공유</span>
           </button>
           <button class="share-option-btn" id="share-fb-btn">
             <span class="share-icon share-icon-facebook">
@@ -663,20 +717,21 @@
                 />
               </svg>
             </span>
-            <span>페이스북 공유</span>
+            <span data-i18n="shareFacebook">페이스북 공유</span>
           </button>
         </div>
 
         <div class="share-message">
-          <h3>공유 문구</h3>
+          <h3 data-i18n="shareMessageTitle">공유 문구</h3>
           <div class="share-message-text" id="share-message-text"></div>
-          <button class="share-copy-message-btn" id="share-copy-message-btn">
+          <button class="share-copy-message-btn" id="share-copy-message-btn" data-i18n="btnCopyText">
             문구 복사
           </button>
           <p
             class="share-instagram-hint"
             id="share-instagram-hint"
             style="display: none"
+            data-i18n="shareInstagramHint"
           >
             💡 인스타그램에 업로드하려면 위의 "인스타그램용 이미지 저장" 버튼을
             눌러 이미지를 저장한 후, 인스타그램 앱에서 업로드하세요.
@@ -686,6 +741,266 @@
       <div class="share-sheet-backdrop" id="share-sheet-backdrop"></div>
     </div>
 
+    <script>
+      // =========================
+      // i18n
+      // =========================
+      const translations = {
+        ko: {
+          metaTitle: "SnapTrail - 무료 사진 타임라인 뷰어 | EXIF 분석, GPS 지도, HEIC 지원",
+          metaDescription: "SnapTrail은 사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱입니다. GPS 지도, HEIC 파일 지원, ZIP 다운로드 등 다양한 기능을 제공합니다. 회원가입 없이 바로 사용 가능합니다.",
+          btnUpload: "사진 업로드",
+          btnShare: "공유하기",
+          btnClear: "초기화",
+          dropZoneText: "📁 사진을 여기에 드래그하거나 클릭하여 업로드하세요",
+          tabTimeline: "타임라인",
+          tabMap: "지도",
+          loadingText: "사진을 분석 중...",
+          featuresTitle: "✨ SnapTrail의 주요 기능",
+          featureExif: "📸 EXIF 메타데이터 분석",
+          featureExifDesc: "사진에 포함된 촬영일, 카메라 기종, GPS 정보 등을 자동으로 추출하여 표시합니다.",
+          featureGPS: "🗺️ GPS 기반 지도",
+          featureGPSDesc: "위치 정보가 있는 사진을 지도에 마커로 표시하고, 주소로 변환하여 보여줍니다.",
+          featureTimeline: "📅 타임라인 뷰어",
+          featureTimelineDesc: "사진을 연도와 월별로 자동 그룹화하여 시간순으로 정리된 타임라인을 제공합니다.",
+          featureHEIC: "📱 HEIC 파일 지원",
+          featureHEICDesc: "iPhone에서 찍은 HEIC/HEIF 파일을 자동으로 JPEG로 변환하여 사용할 수 있습니다.",
+          featureZIP: "📦 ZIP 다운로드",
+          featureZIPDesc: "원하는 월의 사진을 한 번에 ZIP 파일로 다운로드할 수 있습니다.",
+          featureLocal: "💾 로컬 저장",
+          featureLocalDesc: "모든 데이터는 브라우저에만 저장되며, 새로고침 후에도 데이터가 유지됩니다.",
+          guideTitle: "📖 사용 가이드",
+          guideStep1Title: "사진 업로드",
+          guideStep1Desc: "드래그 앤 드롭 또는 \"사진 업로드\" 버튼을 클릭하여 사진을 업로드하세요. 여러 장을 한 번에 업로드할 수 있으며, HEIC 파일도 지원합니다.",
+          guideStep2Title: "타임라인 확인",
+          guideStep2Desc: "업로드된 사진이 자동으로 연도와 월별로 그룹화되어 타임라인으로 표시됩니다. 각 사진의 촬영일과 카메라 정보를 확인할 수 있습니다.",
+          guideStep3Title: "지도에서 위치 확인",
+          guideStep3Desc: "\"지도\" 탭을 클릭하면 GPS 정보가 있는 사진들이 지도에 마커로 표시됩니다. 마커를 클릭하면 사진과 위치 정보를 확인할 수 있습니다.",
+          guideStep4Title: "사진 다운로드",
+          guideStep4Desc: "각 월 섹션의 \"ZIP 다운로드\" 버튼을 클릭하면 해당 월의 모든 사진을 ZIP 파일로 다운로드할 수 있습니다.",
+          faqTitle: "❓ 자주 묻는 질문 (FAQ)",
+          faq1Q: "Q. SnapTrail은 무료인가요?",
+          faq1A: "A. 네, 완전 무료입니다. 회원가입이나 설치 없이 바로 사용할 수 있습니다. 모든 기능을 무료로 이용하실 수 있습니다.",
+          faq2Q: "Q. 업로드한 사진은 어디에 저장되나요?",
+          faq2A: "A. 모든 데이터는 사용자의 브라우저 로컬 스토리지에만 저장됩니다. 서버로 전송되지 않으며, 다른 사람이 접근할 수 없습니다. 브라우저 캐시를 삭제하면 저장된 데이터도 함께 삭제됩니다.",
+          faq3Q: "Q. iPhone HEIC 파일도 사용할 수 있나요?",
+          faq3A: "A. 네, iPhone에서 찍은 HEIC/HEIF 파일을 자동으로 JPEG로 변환하여 사용할 수 있습니다. GPS 정보도 정확하게 추출됩니다.",
+          faq4Q: "Q. 모바일에서도 사용할 수 있나요?",
+          faq4A: "A. 네, 반응형 디자인으로 구현되어 있어 스마트폰, 태블릿, 데스크톱 등 모든 기기에서 최적화된 화면으로 사용할 수 있습니다. PWA로 홈화면에 추가하여 앱처럼 사용할 수도 있습니다.",
+          faq5Q: "Q. GPS 정보가 없는 사진도 사용할 수 있나요?",
+          faq5A: "A. 네, GPS 정보가 없어도 사진을 업로드하고 타임라인으로 볼 수 있습니다. GPS 정보가 있는 사진만 지도에 표시됩니다.",
+          faq6Q: "Q. 사진을 ZIP으로 다운로드할 수 있나요?",
+          faq6A: "A. 네, 각 월별로 사진을 ZIP 파일로 다운로드할 수 있습니다. 타임라인에서 해당 월의 \"ZIP 다운로드\" 버튼을 클릭하세요.",
+          footerTagline: "사진의 추억을 타임라인으로 관리하세요",
+          footerLinks: "링크",
+          footerFAQ: "자주 묻는 질문",
+          footerPrivacy: "개인정보 처리방침",
+          footerTerms: "이용약관",
+          footerContact: "문의하기",
+          footerContactTitle: "연락처",
+          shareSheetTitle: "공유하기",
+          shareKakao: "카카오톡으로 공유",
+          shareInstagram: "인스타그램용 이미지 저장",
+          shareCopyLink: "링크 복사하기",
+          shareDownloadImage: "대표 이미지 저장하기",
+          shareTwitter: "트위터 공유",
+          shareFacebook: "페이스북 공유",
+          shareMessageTitle: "공유 문구",
+          btnCopyText: "문구 복사",
+          shareInstagramHint: "💡 인스타그램에 업로드하려면 위의 \"인스타그램용 이미지 저장\" 버튼을 눌러 이미지를 저장한 후, 인스타그램 앱에서 업로드하세요.",
+          moreTestsBtn: "더 많은 테스트 해보기",
+          emptyMessage: "업로드된 사진이 없습니다.",
+          yearSuffix: "년",
+          monthSuffix: "월",
+          zipDownloadBtn: "📦 {year}-{month} ZIP 다운로드",
+          confirmClear: "모든 사진과 캐시를 삭제하시겠습니까?",
+          alertClearDone: "모든 데이터가 삭제되었습니다. 페이지를 새로고침해주세요.",
+          alertFileError: "파일 처리 중 오류가 발생했습니다.",
+          shareTitleTemplate: "{count}장의 사진 타임라인",
+          shareTitleDefault: "SnapTrail - 사진 타임라인 뷰어",
+          shareDescTemplate: "촬영한 {count}장의 사진을 타임라인으로 확인하세요.{gpsInfo}",
+          shareDescGPS: " 위치 정보가 있는 사진 {gpsCount}장이 지도에 표시됩니다.",
+          shareDescDefault: "사진의 EXIF 메타데이터를 분석하여 타임라인으로 보여주는 무료 웹앱",
+          swUpdateAvailable: "새 버전이 있습니다. 페이지를 새로고침하시겠습니까?",
+          swFileNotFound: "Service Worker 파일을 찾을 수 없습니다.",
+          swRegistered: "Service Worker 등록 완료",
+        },
+        en: {
+          metaTitle: "SnapTrail - Free Photo Timeline Viewer | EXIF Analysis, GPS Map, HEIC Support",
+          metaDescription: "SnapTrail is a free web app that analyzes photo EXIF metadata and displays it as a timeline. Provides various features including GPS maps, HEIC file support, ZIP downloads. No registration required.",
+          btnUpload: "Upload Photos",
+          btnShare: "Share",
+          btnClear: "Clear",
+          dropZoneText: "📁 Drag and drop photos here or click to upload",
+          tabTimeline: "Timeline",
+          tabMap: "Map",
+          loadingText: "Analyzing photos...",
+          featuresTitle: "✨ SnapTrail Features",
+          featureExif: "📸 EXIF Metadata Analysis",
+          featureExifDesc: "Automatically extracts and displays shooting date, camera model, GPS information, etc. from photos.",
+          featureGPS: "🗺️ GPS-based Map",
+          featureGPSDesc: "Displays photos with location information as markers on a map and converts them to addresses.",
+          featureTimeline: "📅 Timeline Viewer",
+          featureTimelineDesc: "Automatically groups photos by year and month to provide a timeline organized chronologically.",
+          featureHEIC: "📱 HEIC File Support",
+          featureHEICDesc: "Automatically converts HEIC/HEIF files taken on iPhone to JPEG for use.",
+          featureZIP: "📦 ZIP Download",
+          featureZIPDesc: "Download photos for a desired month as a ZIP file at once.",
+          featureLocal: "💾 Local Storage",
+          featureLocalDesc: "All data is stored only in the browser and persists after refresh.",
+          guideTitle: "📖 User Guide",
+          guideStep1Title: "Upload Photos",
+          guideStep1Desc: "Drag and drop or click the \"Upload Photos\" button to upload photos. You can upload multiple photos at once, and HEIC files are also supported.",
+          guideStep2Title: "View Timeline",
+          guideStep2Desc: "Uploaded photos are automatically grouped by year and month and displayed as a timeline. You can check the shooting date and camera information for each photo.",
+          guideStep3Title: "Check Location on Map",
+          guideStep3Desc: "Click the \"Map\" tab to see photos with GPS information displayed as markers on the map. Click a marker to view the photo and location information.",
+          guideStep4Title: "Download Photos",
+          guideStep4Desc: "Click the \"ZIP Download\" button in each month section to download all photos for that month as a ZIP file.",
+          faqTitle: "❓ Frequently Asked Questions (FAQ)",
+          faq1Q: "Q. Is SnapTrail free?",
+          faq1A: "A. Yes, completely free. You can use it immediately without registration or installation. All features are available for free.",
+          faq2Q: "Q. Where are uploaded photos stored?",
+          faq2A: "A. All data is stored only in your browser's local storage. It is not sent to any server, and no one else can access it. Deleting your browser cache will also delete the stored data.",
+          faq3Q: "Q. Can I use iPhone HEIC files?",
+          faq3A: "A. Yes, HEIC/HEIF files taken on iPhone are automatically converted to JPEG for use. GPS information is also accurately extracted.",
+          faq4Q: "Q. Can I use it on mobile?",
+          faq4A: "A. Yes, it's implemented with responsive design, so you can use it with an optimized screen on all devices including smartphones, tablets, and desktops. You can also add it to your home screen as a PWA to use it like an app.",
+          faq5Q: "Q. Can I use photos without GPS information?",
+          faq5A: "A. Yes, you can upload photos and view them in the timeline even without GPS information. Only photos with GPS information are displayed on the map.",
+          faq6Q: "Q. Can I download photos as ZIP?",
+          faq6A: "A. Yes, you can download photos as a ZIP file for each month. Click the \"ZIP Download\" button for that month in the timeline.",
+          footerTagline: "Manage your photo memories as a timeline",
+          footerLinks: "Links",
+          footerFAQ: "FAQ",
+          footerPrivacy: "Privacy Policy",
+          footerTerms: "Terms of Service",
+          footerContact: "Contact",
+          footerContactTitle: "Contact",
+          shareSheetTitle: "Share",
+          shareKakao: "Share via KakaoTalk",
+          shareInstagram: "Save image for Instagram",
+          shareCopyLink: "Copy link",
+          shareDownloadImage: "Save main image",
+          shareTwitter: "Share on Twitter",
+          shareFacebook: "Share on Facebook",
+          shareMessageTitle: "Share text",
+          btnCopyText: "Copy text",
+          shareInstagramHint: "💡 To upload to Instagram, click the \"Save image for Instagram\" button above to save the image, then upload it from the Instagram app.",
+          moreTestsBtn: "Explore more tests",
+          emptyMessage: "No photos uploaded.",
+          yearSuffix: "",
+          monthSuffix: "",
+          zipDownloadBtn: "📦 Download {year}-{month} ZIP",
+          confirmClear: "Delete all photos and cache?",
+          alertClearDone: "All data has been deleted. Please refresh the page.",
+          alertFileError: "An error occurred while processing files.",
+          shareTitleTemplate: "{count} Photo Timeline",
+          shareTitleDefault: "SnapTrail - Photo Timeline Viewer",
+          shareDescTemplate: "View {count} photos in a timeline.{gpsInfo}",
+          shareDescGPS: " {gpsCount} photos with location information are displayed on the map.",
+          shareDescDefault: "Free web app that analyzes photo EXIF metadata and displays it as a timeline",
+          swUpdateAvailable: "A new version is available. Would you like to refresh the page?",
+          swFileNotFound: "Service Worker file not found.",
+          swRegistered: "Service Worker registered successfully",
+        },
+      };
+
+      const defaultLang = "ko";
+      const supportedLangs = ["ko", "en"];
+      let currentLang = defaultLang;
+
+      function t(key, vars = {}) {
+        const langTable = translations[currentLang] || translations.ko;
+        let template = langTable?.[key] ?? translations.ko?.[key] ?? key;
+        if (typeof template !== "string") return template;
+        Object.keys(vars).forEach((k) => {
+          template = template.replace(new RegExp(`\\{${k}\\}`, "g"), vars[k]);
+        });
+        return template;
+      }
+
+      function applyTranslations() {
+        document.title = t("metaTitle");
+        const descMeta = document.querySelector('meta[name="description"]');
+        if (descMeta) descMeta.setAttribute("content", t("metaDescription"));
+        const ogTitleMeta = document.querySelector('meta[property="og:title"]');
+        if (ogTitleMeta) ogTitleMeta.setAttribute("content", t("metaTitle"));
+        const ogDescMeta = document.querySelector('meta[property="og:description"]');
+        if (ogDescMeta) ogDescMeta.setAttribute("content", t("metaDescription"));
+        const twitterTitleMeta = document.querySelector('meta[name="twitter:title"]');
+        if (twitterTitleMeta) twitterTitleMeta.setAttribute("content", t("metaTitle"));
+        const twitterDescMeta = document.querySelector('meta[name="twitter:description"]');
+        if (twitterDescMeta) twitterDescMeta.setAttribute("content", t("metaDescription"));
+        document.documentElement.lang = currentLang;
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          el.textContent = t(el.dataset.i18n);
+        });
+        document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+          el.innerHTML = t(el.dataset.i18nHtml);
+        });
+        document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+          el.setAttribute("aria-label", t(el.dataset.i18nAria));
+        });
+        document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+          el.setAttribute("alt", t(el.dataset.i18nAlt));
+        });
+      }
+
+      function detectLang() {
+        const params = new URLSearchParams(window.location.search);
+        const paramLang = params.get("lang");
+        if (supportedLangs.includes(paramLang)) return paramLang;
+        const stored = localStorage.getItem("preferredLang");
+        if (supportedLangs.includes(stored)) return stored;
+        const intlLocale =
+          typeof Intl === "object" && typeof Intl.DateTimeFormat === "function"
+            ? Intl.DateTimeFormat().resolvedOptions().locale
+            : "";
+        const sources = [
+          ...(navigator.languages || []),
+          navigator.language,
+          navigator.userLanguage,
+          intlLocale,
+        ]
+          .filter(Boolean)
+          .map((locale) => locale.toLowerCase());
+        const hasKorean = sources.some((locale) => locale.startsWith("ko"));
+        return hasKorean ? "ko" : "en";
+      }
+
+      function setLang(lang, options = {}) {
+        const nextLang = supportedLangs.includes(lang) ? lang : defaultLang;
+        currentLang = nextLang;
+        window.currentLang = currentLang;
+        document.documentElement.lang = nextLang;
+        localStorage.setItem("preferredLang", nextLang);
+        document.querySelectorAll(".lang-switch button").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === nextLang);
+        });
+        applyTranslations();
+        if (options.updateUrl) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("lang", nextLang);
+          window.history.replaceState({}, "", url);
+        }
+        // Update dynamic content if needed
+        if (window.updateUI) window.updateUI();
+      }
+
+      document.querySelectorAll(".lang-switch button").forEach((button) => {
+        button.addEventListener("click", () => {
+          setLang(button.dataset.lang, { updateUrl: true });
+        });
+      });
+
+      setLang(detectLang(), { updateUrl: false });
+
+      // Make t() function and currentLang globally available
+      window.t = t;
+      window.currentLang = currentLang;
+      window.setLang = setLang;
+    </script>
     <script type="module" src="/src/main.js"></script>
     <script>
       // 카카오 SDK 초기화
@@ -724,13 +1039,15 @@
                 updateViaCache: "none",
               });
             } else {
-              console.warn("Service Worker 파일을 찾을 수 없습니다.");
+              const t = window.t || ((key, vars = {}) => key);
+              console.warn(t('swFileNotFound'));
               return null;
             }
           })
           .then((registration) => {
             if (registration) {
-              console.log("Service Worker 등록 완료");
+              const t = window.t || ((key, vars = {}) => key);
+              console.log(t('swRegistered'));
 
               registration.addEventListener("updatefound", () => {
                 const newWorker = registration.installing;
@@ -739,11 +1056,8 @@
                     newWorker.state === "installed" &&
                     navigator.serviceWorker.controller
                   ) {
-                    if (
-                      confirm(
-                        "새 버전이 있습니다. 페이지를 새로고침하시겠습니까?"
-                      )
-                    ) {
+                    const t = window.t || ((key, vars = {}) => key);
+                    if (confirm(t('swUpdateAvailable'))) {
                       window.location.reload();
                     }
                   }
@@ -799,7 +1113,8 @@
           iconSvg.appendChild(path);
 
           // 텍스트 추가
-          const text = document.createTextNode("더 많은 테스트 해보기");
+          const t = window.t || ((key, vars = {}) => key);
+          const text = document.createTextNode(t('moreTestsBtn'));
 
           moreBtn.appendChild(iconSvg);
           moreBtn.appendChild(text);

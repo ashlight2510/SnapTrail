@@ -4,8 +4,9 @@ import { downloadZip } from '../utils/zip.js';
 export async function renderTimeline(groupedPhotos, container) {
   container.innerHTML = '';
   
+  const t = window.t || ((key, vars = {}) => key);
   if (!groupedPhotos || Object.keys(groupedPhotos).length === 0) {
-    container.innerHTML = '<p class="empty-message">업로드된 사진이 없습니다.</p>';
+    container.innerHTML = `<p class="empty-message">${t('emptyMessage')}</p>`;
     return;
   }
   
@@ -16,9 +17,10 @@ export async function renderTimeline(groupedPhotos, container) {
     const yearSection = document.createElement('section');
     yearSection.className = 'year-section';
     
+    const t = window.t || ((key, vars = {}) => key);
     const yearHeader = document.createElement('h2');
     yearHeader.className = 'year-header';
-    yearHeader.textContent = `${year}년`;
+    yearHeader.textContent = `${year}${t('yearSuffix')}`;
     yearSection.appendChild(yearHeader);
     
     // 월별로 정렬 (최신순)
@@ -28,17 +30,19 @@ export async function renderTimeline(groupedPhotos, container) {
       const monthSection = document.createElement('div');
       monthSection.className = 'month-section';
       
+      const t = window.t || ((key, vars = {}) => key);
       const monthHeader = document.createElement('h3');
       monthHeader.className = 'month-header';
-      monthHeader.textContent = `${parseInt(month)}월`;
+      monthHeader.textContent = `${parseInt(month)}${t('monthSuffix')}`;
       monthSection.appendChild(monthHeader);
       
       const photos = groupedPhotos[year][month];
       
       // ZIP 다운로드 버튼
+      const t = window.t || ((key, vars = {}) => key);
       const zipBtn = document.createElement('button');
       zipBtn.className = 'zip-download-btn';
-      zipBtn.textContent = `📦 ${year}-${month} ZIP 다운로드`;
+      zipBtn.textContent = t('zipDownloadBtn', { year, month });
       zipBtn.addEventListener('click', () => {
         downloadZip(`${year}-${month}`, photos);
       });
